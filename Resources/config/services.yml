@@ -6,6 +6,9 @@ services:
     DigipolisGent\SettingBundle\FieldType\StringFieldType:
         tags:
             - { name: field_type}
+    DigipolisGent\SettingBundle\FieldType\BooleanFieldType:
+        tags:
+            - { name: field_type}
     DigipolisGent\SettingBundle\Service\FieldTypeServiceCollector:
     DigipolisGent\SettingBundle\EventListener\DynamicSettingImplementationRelationSubscriber:
         tags:

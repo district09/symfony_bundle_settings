@@ -30,13 +30,6 @@ class SettingEntityType
     private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="setting_et_class",type="string")
-     */
-    private $class;
-
-    /**
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity=SettingDataType::class,mappedBy="settingEntityTypes",cascade={"persist"})
@@ -62,22 +55,6 @@ class SettingEntityType
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * @param string $class
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
     }
 
     /**

@@ -3,6 +3,8 @@
 
 namespace DigipolisGent\SettingBundle\FieldType;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 /**
  * Class StringFieldType
  * @package DigipolisGent\SettingBundle\FieldType
@@ -21,6 +23,16 @@ class StringFieldType implements FieldTypeInterface
     }
 
     /**
+     * @param $value
+     */
+    public function getFormAttributes($value)
+    {
+        return [
+            'value' => $value ? $value : '',
+        ];
+    }
+
+    /**
      * @return string
      */
     public static function getName(): string
@@ -28,4 +40,11 @@ class StringFieldType implements FieldTypeInterface
         return 'string';
     }
 
+    /**
+     * @return string
+     */
+    public function getFormType(): string
+    {
+        return TextType::class;
+    }
 }

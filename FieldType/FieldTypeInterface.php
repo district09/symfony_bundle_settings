@@ -12,6 +12,10 @@ interface FieldTypeInterface
 
     public function validate($value): array;
 
+    public function getFormAttributes($value);
+
+    public function getFormType(): string;
+
     public static function getName(): string;
 
 }
