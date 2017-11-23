@@ -9,10 +9,10 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Class FieldTypeCompilerPass
+ * Class FieldTypeServiceCompilerPass
  * @package DigipolisGent\SettingBundle\DependencyInjection\Compiler
  */
-class FieldTypeCompilerPass implements CompilerPassInterface
+class FieldTypeServiceCompilerPass implements CompilerPassInterface
 {
 
     /**
