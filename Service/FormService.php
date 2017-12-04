@@ -24,24 +24,32 @@ class FormService
 
     private $entityManager;
     private $fieldTypeServiceCollector;
+    private $entityTypeCollector;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        FieldTypeServiceCollector $fieldTypeServiceCollector
+        FieldTypeServiceCollector $fieldTypeServiceCollector,
+        EntityTypeCollector $entityTypeCollector
     ) {
         $this->entityManager = $entityManager;
         $this->fieldTypeServiceCollector = $fieldTypeServiceCollector;
+        $this->entityTypeCollector = $entityTypeCollector;
     }
 
     public function addConfig(FormBuilderInterface $builder)
     {
-        $configFieldBuilder = $builder->create('config', FormType::class, ['mapped' => false]);
+        $configFieldBuilder = $builder->create('config', FormType::class, ['mapped' => false,'label' => false]);
         $entity = $builder->getData();
 
         $entityType = $this->entityManager->getRepository(SettingEntityType::class)
-            ->findOneBy(['class' => get_class($entity)]);
+            ->findOneBy(['name' => $this->entityTypeCollector->getEntityTypeByClass(get_class($entity))]);
 
-        foreach ($entityType->getSettingDataTypes() as $settingDataType) {
+        $settingDataTypes = $entityType->getSettingDataTypes()->toArray();
+        usort($settingDataTypes,function ($a,$b){
+           return $a->getOrder() > $b->getOrder();
+        });
+
+        foreach ($settingDataTypes as $settingDataType) {
             $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($settingDataType->getFieldType());
 
             $callbackConstraint = function ($value, ExecutionContextInterface $context) use ($fieldTypeService) {
@@ -56,16 +64,14 @@ class FormService
 
             $configFieldBuilder->add(
                 $settingDataType->getKey(),
-                TextType::class,
+                $fieldTypeService->getFormType(),
                 [
                     'label' => $settingDataType->getLabel(),
                     'required' => $settingDataType->isRequired(),
                     'constraints' => [
                         new Callback($callbackConstraint),
                     ],
-                    'attr' => [
-                        'value' => $settingDataValue ? $settingDataValue->getValue() : '',
-                    ],
+                    'attr' => $fieldTypeService->getFormAttributes($settingDataValue->getValue()),
                 ]
             );
         }
@@ -99,5 +105,4 @@ class FormService
 
         return $entity;
     }
-
 }

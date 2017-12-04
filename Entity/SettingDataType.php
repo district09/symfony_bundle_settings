@@ -66,6 +66,13 @@ class SettingDataType
      */
     private $settingEntityTypes;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="setting_dt_order",type="integer")
+     */
+    private $order;
+
     public function __construct()
     {
         $this->settingDataValues = new ArrayCollection();
@@ -190,5 +197,21 @@ class SettingDataType
     public function removeSettingEntityType(SettingEntityType $settingEntityType){
         $this->settingEntityTypes->removeElement($settingEntityType);
         $settingEntityType->removeSettingDataType($this);
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrder(): int
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param int $order
+     */
+    public function setOrder(int $order)
+    {
+        $this->order = $order;
     }
 }

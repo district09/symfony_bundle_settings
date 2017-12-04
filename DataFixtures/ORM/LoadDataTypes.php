@@ -26,6 +26,7 @@ class LoadDataTypes extends Fixture
     {
 
         $dataTypeCollector = $this->container->get(DataTypeCollector::class);
+        $dataTypeKeys = [];
 
         foreach ($dataTypeCollector->getDataTypes() as $dataTypeArr) {
 
@@ -34,6 +35,9 @@ class LoadDataTypes extends Fixture
             $required = $dataTypeArr['required'];
             $fieldType = $dataTypeArr['field_type'];
             $entityTypeNames = $dataTypeArr['entity_types'];
+            $order = $dataTypeArr['order'];
+
+            $dataTypeKeys[] = $key;
 
             $dataType = $manager->getRepository(SettingDataType::class)
                 ->findOneBy(['key' => $key]);
@@ -46,6 +50,7 @@ class LoadDataTypes extends Fixture
             $dataType->setLabel($label);
             $dataType->setRequired($required);
             $dataType->setFieldType($fieldType);
+            $dataType->setOrder($order);
 
             foreach ($entityTypeNames as $entityTypeName) {
                 $entityType = $manager->getRepository(SettingEntityType::class)
@@ -57,8 +62,16 @@ class LoadDataTypes extends Fixture
             }
 
             $manager->persist($dataType);
-            $manager->flush();
         }
+
+        $dataTypes = $manager->getRepository(SettingDataType::class)->findAll();
+        foreach ($dataTypes as $dataType){
+            if(!in_array($dataType->getKey(),$dataTypeKeys)){
+                $manager->remove($dataType);
+            }
+        }
+
+        $manager->flush();
     }
 
 
