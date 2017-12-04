@@ -69,7 +69,7 @@ class SettingDataType
     /**
      * @var integer
      *
-     * @ORM\Column(name="setting_dt_order",type="integer")
+     * @ORM\Column(name="setting_dt_order",type="integer",nullable=true)
      */
     private $order;
 
@@ -186,7 +186,8 @@ class SettingDataType
     /**
      * @param SettingEntityType $settingEntityType
      */
-    public function addSettingEntityType(SettingEntityType $settingEntityType){
+    public function addSettingEntityType(SettingEntityType $settingEntityType)
+    {
         $this->settingEntityTypes->add($settingEntityType);
         $settingEntityType->addSettingDataType($this);
     }
@@ -194,7 +195,8 @@ class SettingDataType
     /**
      * @param SettingEntityType $settingEntityType
      */
-    public function removeSettingEntityType(SettingEntityType $settingEntityType){
+    public function removeSettingEntityType(SettingEntityType $settingEntityType)
+    {
         $this->settingEntityTypes->removeElement($settingEntityType);
         $settingEntityType->removeSettingDataType($this);
     }
@@ -202,7 +204,7 @@ class SettingDataType
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getOrder()
     {
         return $this->order;
     }
@@ -210,7 +212,7 @@ class SettingDataType
     /**
      * @param int $order
      */
-    public function setOrder(int $order)
+    public function setOrder($order)
     {
         $this->order = $order;
     }

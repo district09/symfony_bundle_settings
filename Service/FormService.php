@@ -7,6 +7,7 @@ namespace DigipolisGent\SettingBundle\Service;
 use DigipolisGent\SettingBundle\Entity\SettingDataType;
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;
+use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -38,15 +39,20 @@ class FormService
 
     public function addConfig(FormBuilderInterface $builder)
     {
-        $configFieldBuilder = $builder->create('config', FormType::class, ['mapped' => false,'label' => false]);
         $entity = $builder->getData();
 
+        $entityTypeName = $this->entityTypeCollector->getEntityTypeByClass(get_class($entity));
+
         $entityType = $this->entityManager->getRepository(SettingEntityType::class)
-            ->findOneBy(['name' => $this->entityTypeCollector->getEntityTypeByClass(get_class($entity))]);
+            ->findOneBy(['name' => $entityTypeName ]);
+
+        if(is_null($entityType)){
+            return;
+        }
 
         $settingDataTypes = $entityType->getSettingDataTypes()->toArray();
-        usort($settingDataTypes,function ($a,$b){
-           return $a->getOrder() > $b->getOrder();
+        usort($settingDataTypes, function ($a, $b) {
+            return $a->getOrder() > $b->getOrder();
         });
 
         foreach ($settingDataTypes as $settingDataType) {
@@ -62,8 +68,14 @@ class FormService
             $settingDataValue = $this->entityManager->getRepository(SettingDataValue::class)->findOneByKey($entity,
                 $settingDataType->getKey());
 
-            $configFieldBuilder->add(
-                $settingDataType->getKey(),
+            $value = '';
+
+            if (!is_null($settingDataValue)) {
+                $value = $settingDataValue->getValue();
+            }
+
+            $builder->add(
+                'config:'.$settingDataType->getKey(),
                 $fieldTypeService->getFormType(),
                 [
                     'label' => $settingDataType->getLabel(),
@@ -71,12 +83,11 @@ class FormService
                     'constraints' => [
                         new Callback($callbackConstraint),
                     ],
-                    'attr' => $fieldTypeService->getFormAttributes($settingDataValue->getValue()),
+                    'attr' => $fieldTypeService->getFormAttributes($value),
+                    'mapped' => false
                 ]
             );
         }
-
-        $builder->add($configFieldBuilder);
     }
 
     /**
@@ -86,16 +97,25 @@ class FormService
     public function processForm(Form $form)
     {
         $entity = $form->getData();
-        $configData = $form->get('config')->getData();
+
+        if(!in_array(SettingImplementationTrait::class,class_uses($entity))){
+            return;
+        }
+
         $entity->clearSettingDataValues();
 
-        foreach ($configData as $settingDataTypeKey => $value) {
+        foreach ($form->getIterator() as $formElement) {
+            if (strpos($formElement->getName(), 'config:') === false) {
+                continue;
+            }
+            $settingDataTypeKey = str_replace('config:','',$formElement->getName());
+
             $settingDataType = $this->entityManager->getRepository(SettingDataType::class)
                 ->findOneBy(['key' => $settingDataTypeKey]);
 
             $settingDataValue = new SettingDataValue();
             $settingDataValue->setSettingDataType($settingDataType);
-            $settingDataValue->setValue($value);
+            $settingDataValue->setValue($formElement->getData());
 
             $entity->addSettingDataValue($settingDataValue);
         }

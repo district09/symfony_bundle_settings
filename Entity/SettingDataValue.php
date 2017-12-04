@@ -66,4 +66,9 @@ class SettingDataValue
         $this->settingDataType = $settingDataType;
     }
 
+    public function __toString()
+    {
+        return $this->value;
+    }
+
 }

@@ -22,9 +22,7 @@ class EntityTypeCollector
      */
     public function addEntityTypes(EntityTypeProviderInterface $entityTypeProvider)
     {
-        foreach ($entityTypeProvider->getEntityTypes() as $name => $class) {
-            static::$entityTypeList[$name] = $class;
-        }
+        static::$entityTypeList = array_merge(static::$entityTypeList, $entityTypeProvider->getEntityTypes());
     }
 
     /**
@@ -41,6 +39,11 @@ class EntityTypeCollector
      */
     public function getEntityTypeByClass($class){
         $flippedArr = array_flip(self::$entityTypeList);
+
+        if(!isset($flippedArr[$class])){
+            return null;
+        }
+
         return $flippedArr[$class];
     }
 }

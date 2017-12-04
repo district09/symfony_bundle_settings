@@ -35,7 +35,7 @@ class LoadDataTypes extends Fixture
             $required = $dataTypeArr['required'];
             $fieldType = $dataTypeArr['field_type'];
             $entityTypeNames = $dataTypeArr['entity_types'];
-            $order = $dataTypeArr['order'];
+            $order = isset($dataTypeArr['order']) ? $dataTypeArr['order'] : null;
 
             $dataTypeKeys[] = $key;
 
