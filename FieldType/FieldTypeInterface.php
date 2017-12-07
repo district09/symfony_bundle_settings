@@ -9,13 +9,11 @@ namespace DigipolisGent\SettingBundle\FieldType;
  */
 interface FieldTypeInterface
 {
-
-    public function validate($value): array;
-
-    public function getFormAttributes($value);
-
     public function getFormType(): string;
+
+    public function getOptions($value): array;
 
     public static function getName(): string;
 
+    public function encodeValue($value): string;
 }

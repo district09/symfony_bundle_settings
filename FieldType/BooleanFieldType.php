@@ -13,17 +13,6 @@ class BooleanFieldType implements FieldTypeInterface
 {
 
     /**
-     * @param $value
-     * @return array
-     */
-    public function validate($value): array
-    {
-        $errorMessages = [];
-        return $errorMessages;
-    }
-
-
-    /**
      * @return string
      */
     public static function getName(): string
@@ -32,24 +21,34 @@ class BooleanFieldType implements FieldTypeInterface
     }
 
     /**
-     * @param $value
-     */
-    public function getFormAttributes($value)
-    {
-        $attributes = [];
-
-        if ($value) {
-            $attributes['checked'] = 'checked';
-        }
-
-        return $attributes;
-    }
-
-    /**
      * @return string
      */
     public function getFormType(): string
     {
         return CheckboxType::class;
+    }
+
+    /**
+     * @param $value
+     * @return array
+     */
+    public function getOptions($value): array
+    {
+        $options = [];
+
+        if ($value) {
+            $options['attr']['checked'] = 'checked';
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function encodeValue($value): string
+    {
+        return $value;
     }
 }

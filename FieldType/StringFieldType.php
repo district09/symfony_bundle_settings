@@ -47,4 +47,24 @@ class StringFieldType implements FieldTypeInterface
     {
         return TextType::class;
     }
+
+    /**
+     * @param $value
+     * @return array
+     */
+    public function getOptions($value): array
+    {
+       $options = [];
+       $options['attr']['value'] = $value ? $value : '';
+       return $options;
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function encodeValue($value): string
+    {
+        return $value;
+    }
 }
