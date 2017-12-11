@@ -56,6 +56,7 @@ class FormService
 
         foreach ($settingDataTypes as $settingDataType) {
             $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($settingDataType->getFieldType());
+            $fieldTypeService->setOriginEntity($entity);
 
             $settingDataValue = $this->entityManager->getRepository(SettingDataValue::class)->findOneByKey($entity,
                 $settingDataType->getKey());
@@ -103,6 +104,7 @@ class FormService
                 ->findOneBy(['key' => $settingDataTypeKey]);
 
             $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($settingDataType->getFieldType());
+            $fieldTypeService->setOriginEntity($entity);
 
             $value = $formElement->getData() ? $fieldTypeService->encodeValue($formElement->getData()) : '';
 

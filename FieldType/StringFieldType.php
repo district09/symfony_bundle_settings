@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  * Class StringFieldType
  * @package DigipolisGent\SettingBundle\FieldType
  */
-class StringFieldType implements FieldTypeInterface
+class StringFieldType extends AbstractFieldType
 {
 
     /**

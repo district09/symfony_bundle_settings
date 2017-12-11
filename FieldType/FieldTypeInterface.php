@@ -16,4 +16,6 @@ interface FieldTypeInterface
     public static function getName(): string;
 
     public function encodeValue($value): string;
+
+    public function setOriginEntity($entity);
 }

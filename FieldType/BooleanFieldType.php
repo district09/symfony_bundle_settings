@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  * Class BooleanFieldType
  * @package DigipolisGent\SettingBundle\FieldType
  */
-class BooleanFieldType implements FieldTypeInterface
+class BooleanFieldType extends AbstractFieldType
 {
 
     /**
