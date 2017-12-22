@@ -216,4 +216,8 @@ class SettingDataType
     {
         $this->order = $order;
     }
+
+    public function clearSettingEntityTypes(){
+        $this->settingEntityTypes->clear();
+    }
 }

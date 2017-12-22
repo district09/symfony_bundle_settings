@@ -37,13 +37,22 @@ class EntityTypeCollector
      * @param $class
      * @return string
      */
-    public function getEntityTypeByClass($class){
+    public function getEntityTypeByClass($class)
+    {
         $flippedArr = array_flip(self::$entityTypeList);
 
-        if(!isset($flippedArr[$class])){
-            return null;
+        $name = null;
+
+        if (isset($flippedArr[$class])) {
+            $name = $flippedArr[$class];
         }
 
-        return $flippedArr[$class];
+        $parentClass = get_parent_class($class);
+
+        if ($parentClass && isset($flippedArr[$parentClass])) {
+            $name = $flippedArr[$parentClass];
+        }
+
+        return $name;
     }
 }

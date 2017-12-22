@@ -6,7 +6,16 @@ services:
     DigipolisGent\SettingBundle\FieldType\StringFieldType:
         tags:
             - { name: field_type}
+    DigipolisGent\SettingBundle\FieldType\DisabledStringFieldType:
+        tags:
+            - { name: field_type}
+    DigipolisGent\SettingBundle\FieldType\DisabledIntegerFieldType:
+        tags:
+            - { name: field_type}
     DigipolisGent\SettingBundle\FieldType\BooleanFieldType:
+        tags:
+            - { name: field_type}
+    DigipolisGent\SettingBundle\FieldType\IntegerFieldType:
         tags:
             - { name: field_type}
     DigipolisGent\SettingBundle\Service\FieldTypeServiceCollector:
@@ -19,3 +28,4 @@ services:
     DigipolisGent\SettingBundle\Service\FormService:
     DigipolisGent\SettingBundle\Service\EntityTypeCollector:
     DigipolisGent\SettingBundle\Service\DataTypeCollector:
+    DigipolisGent\SettingBundle\Service\DataValueService:

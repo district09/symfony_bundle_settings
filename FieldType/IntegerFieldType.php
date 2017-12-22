@@ -3,31 +3,21 @@
 
 namespace DigipolisGent\SettingBundle\FieldType;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 /**
- * Class StringFieldType
+ * Class IntegerFieldType
  * @package DigipolisGent\SettingBundle\FieldType
  */
-class StringFieldType extends AbstractFieldType
+class IntegerFieldType extends AbstractFieldType
 {
-
-    /**
-     * @param $value
-     * @return array
-     */
-    public function validate($value): array
-    {
-        $errorMessages = [];
-        return $errorMessages;
-    }
 
     /**
      * @return string
      */
     public static function getName(): string
     {
-        return 'string';
+        return 'integer';
     }
 
     /**
@@ -35,7 +25,7 @@ class StringFieldType extends AbstractFieldType
      */
     public function getFormType(): string
     {
-        return TextType::class;
+        return IntegerType::class;
     }
 
     /**
@@ -44,9 +34,19 @@ class StringFieldType extends AbstractFieldType
      */
     public function getOptions($value): array
     {
-       $options = [];
-       $options['attr']['value'] = $value ? $value : '';
-       return $options;
+        $options = [];
+        $options['attr']['min'] = 0;
+        $options['attr']['value'] = $value ? $value : '';
+        return $options;
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    public function decodeValue($value)
+    {
+        return (integer)$value;
     }
 
     /**
@@ -55,6 +55,7 @@ class StringFieldType extends AbstractFieldType
      */
     public function encodeValue($value): string
     {
-        return $value;
+        return (string)$value;
     }
+
 }

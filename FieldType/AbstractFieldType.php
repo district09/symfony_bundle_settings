@@ -26,8 +26,19 @@ abstract class AbstractFieldType implements FieldTypeInterface
     /**
      * @return mixed
      */
-    public function getOriginEntity(){
+    public function getOriginEntity()
+    {
         return $this->originEntity;
+    }
+
+    public function decodeValue($value)
+    {
+        return $value;
+    }
+
+    public function encodeValue($value): string
+    {
+        return $value;
     }
 
 }

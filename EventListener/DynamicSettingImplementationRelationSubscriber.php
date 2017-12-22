@@ -42,7 +42,7 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
         $metadata->mapManyToMany(array(
             'targetEntity' => SettingDataValue::class,
             'fieldName' => 'settingDataValues',
-            'cascade' => array('persist'),
+            'cascade' => array('all'),
             'orphanRemoval' => true,
             'joinTable' => array(
                 'name' => strtolower($namingStrategy->classToTableName($metadata->getName())) . '_data_value',

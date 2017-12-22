@@ -52,21 +52,21 @@ class LoadDataTypes extends Fixture
             $dataType->setFieldType($fieldType);
             $dataType->setOrder($order);
 
+            $dataType->clearSettingEntityTypes();
+
             foreach ($entityTypeNames as $entityTypeName) {
                 $entityType = $manager->getRepository(SettingEntityType::class)
                     ->findOneBy(['name' => $entityTypeName]);
 
-                if (!in_array($entityType, $dataType->getSettingEntityTypes()->toArray())) {
-                    $dataType->addSettingEntityType($entityType);
-                }
+                $dataType->addSettingEntityType($entityType);
             }
 
             $manager->persist($dataType);
         }
 
         $dataTypes = $manager->getRepository(SettingDataType::class)->findAll();
-        foreach ($dataTypes as $dataType){
-            if(!in_array($dataType->getKey(),$dataTypeKeys)){
+        foreach ($dataTypes as $dataType) {
+            if (!in_array($dataType->getKey(), $dataTypeKeys)) {
                 $manager->remove($dataType);
             }
         }

@@ -45,10 +45,11 @@ class BooleanFieldType extends AbstractFieldType
 
     /**
      * @param $value
-     * @return string
+     * @return bool
      */
-    public function encodeValue($value): string
+    public function decodeValue($value)
     {
-        return $value;
+        return (boolean)$value;
     }
+
 }
