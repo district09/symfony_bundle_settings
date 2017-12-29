@@ -75,7 +75,7 @@ class FormService
             $options = array_merge($options, $fieldTypeService->getOptions($value));
 
             $form->add(
-                'config:' . $settingDataType->getKey(),
+                'config_' . $settingDataType->getKey(),
                 $fieldTypeService->getFormType(),
                 $options
             );
@@ -104,11 +104,11 @@ class FormService
         $entity->clearSettingDataValues();
 
         foreach ($form->getIterator() as $formElement) {
-            if (strpos($formElement->getName(), 'config:') === false) {
+            if (strpos($formElement->getName(), 'config_') === false) {
                 continue;
             }
 
-            $settingDataTypeKey = str_replace('config:', '', $formElement->getName());
+            $settingDataTypeKey = str_replace('config_', '', $formElement->getName());
 
             $settingDataType = $this->entityManager->getRepository(SettingDataType::class)
                 ->findOneBy(['key' => $settingDataTypeKey]);
