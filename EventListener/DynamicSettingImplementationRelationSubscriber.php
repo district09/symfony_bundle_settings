@@ -35,7 +35,7 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
         $namingStrategy = $loadClassMetadataEventArgs->getEntityManager()->getConfiguration()->getNamingStrategy();
         $metadata = $loadClassMetadataEventArgs->getClassMetadata();
 
-        if(!in_array(SettingImplementationTrait::class,class_uses($metadata->getName()))){
+        if (!in_array(SettingImplementationTrait::class, class_uses($metadata->getName()))) {
             return;
         }
 

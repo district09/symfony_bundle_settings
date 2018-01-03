@@ -4,14 +4,10 @@
 namespace DigipolisGent\SettingBundle\DataFixtures\ORM;
 
 
-use DigipolisGent\Domainator9k\CoreBundle\Entity\Environment;
-use DigipolisGent\SettingBundle\Entity\SettingDataType;
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 use DigipolisGent\SettingBundle\Service\EntityTypeCollector;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 /**
  * Class LoadEntityTypes
@@ -42,8 +38,8 @@ class LoadEntityTypes extends Fixture
         }
 
         $entityTypes = $manager->getRepository(SettingEntityType::class)->findAll();
-        foreach ($entityTypes as $entityType){
-            if(!in_array($entityType->getName(),$entityTypeNames)){
+        foreach ($entityTypes as $entityType) {
+            if (!in_array($entityType->getName(), $entityTypeNames)) {
                 $manager->remove($entityType);
             }
         }

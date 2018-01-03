@@ -4,17 +4,12 @@
 namespace DigipolisGent\SettingBundle\Service;
 
 
-use DigipolisGent\Domainator9k\CoreBundle\Entity\AbstractApplication;
 use DigipolisGent\SettingBundle\Entity\SettingDataType;
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
-use Symfony\Component\Validator\Constraints\Callback;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Class FormService

@@ -44,9 +44,9 @@ class StringFieldType extends AbstractFieldType
      */
     public function getOptions($value): array
     {
-       $options = [];
-       $options['attr']['value'] = $value ? $value : '';
-       return $options;
+        $options = [];
+        $options['attr']['value'] = $value ? $value : '';
+        return $options;
     }
 
     /**

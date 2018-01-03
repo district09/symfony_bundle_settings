@@ -3,8 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\FieldType;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-
 /**
  * Class DisabledIntegerFieldType
  * @package DigipolisGent\SettingBundle\FieldType

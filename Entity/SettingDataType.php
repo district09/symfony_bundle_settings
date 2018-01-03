@@ -7,8 +7,6 @@ use DigipolisGent\SettingBundle\Entity\Traits\IdentifiableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use DigipolisGent\SettingBundle\Entity\SettingDataValue;
-use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 
 /**
  * Class SettingDataType
@@ -217,7 +215,8 @@ class SettingDataType
         $this->order = $order;
     }
 
-    public function clearSettingEntityTypes(){
+    public function clearSettingEntityTypes()
+    {
         $this->settingEntityTypes->clear();
     }
 }

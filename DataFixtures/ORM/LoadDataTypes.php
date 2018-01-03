@@ -8,9 +8,7 @@ use DigipolisGent\SettingBundle\Entity\SettingDataType;
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 use DigipolisGent\SettingBundle\Service\DataTypeCollector;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 /**
  * Class LoadDataTypes

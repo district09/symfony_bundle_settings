@@ -40,7 +40,7 @@ trait SettingImplementationTrait
      */
     public function getSettingDataValues()
     {
-        if(is_null($this->settingDataValues)){
+        if (is_null($this->settingDataValues)) {
             $this->settingDataValues = new ArrayCollection();
         }
         return $this->settingDataValues;

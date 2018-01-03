@@ -3,9 +3,7 @@
 
 namespace DigipolisGent\SettingBundle\Service;
 
-use DigipolisGent\SettingBundle\Exception\FieldTypeNotFoundException;
 use DigipolisGent\SettingBundle\Provider\EntityTypeProviderInterface;
-use Psr\Container\ContainerInterface;
 
 /**
  * Class EntityTypeCollector

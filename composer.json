@@ -1,19 +1,19 @@
 {
-    "name": "digipolisgent/setting-bundle",
-    "type": "symfony-bundle",
-    "description": "",
-    "license": "MIT",
-    "authors": [],
-    "support": {},
-    "minimum-stability": "stable",
-    "require": {
-        "php": ">=7.1",
-        "symfony/symfony": ">=3.4"
-    },
-    "autoload": {
-        "psr-4": {
-            "DigipolisGent\\SettingBundle\\": ""
-        }
+  "name": "digipolisgent/setting-bundle",
+  "type": "symfony-bundle",
+  "description": "",
+  "license": "MIT",
+  "authors": [],
+  "support": {},
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.1",
+    "symfony/symfony": ">=3.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "DigipolisGent\\SettingBundle\\": ""
     }
+  }
 }
 
