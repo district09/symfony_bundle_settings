@@ -51,7 +51,6 @@ class DataValueService
         $fieldType = $settingDataValue->getSettingDataType()->getFieldType();
         $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($fieldType);
 
-
         return $fieldTypeService->decodeValue($settingDataValue->getValue());
     }
 
