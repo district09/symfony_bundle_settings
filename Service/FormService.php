@@ -38,7 +38,6 @@ class FormService
         $class = get_class($entity);
 
         $entityTypeName = $this->entityTypeCollector->getEntityTypeByClass($class);
-
         $entityType = $this->entityManager->getRepository(SettingEntityType::class)
             ->findOneBy(['name' => $entityTypeName]);
 
@@ -47,6 +46,7 @@ class FormService
         }
 
         $settingDataTypes = $entityType->getSettingDataTypes()->toArray();
+
         usort($settingDataTypes, function ($a, $b) {
             return $a->getOrder() > $b->getOrder();
         });
@@ -55,9 +55,8 @@ class FormService
             $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($settingDataType->getFieldType());
             $fieldTypeService->setOriginEntity($entity);
 
-            $settingDataValue = $this->entityManager->getRepository(SettingDataValue::class)->findOneByKey($entity,
-                $settingDataType->getKey());
-
+            $settingDataValue = $this->entityManager->getRepository(SettingDataValue::class)
+                ->findOneByKey($entity, $settingDataType->getKey());
 
             $options = [
                 'label' => $settingDataType->getLabel(),

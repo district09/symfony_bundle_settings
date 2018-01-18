@@ -91,6 +91,8 @@ class SettingDataType
     public function setKey($key)
     {
         $this->key = $key;
+
+        return $this;
     }
 
     /**
@@ -107,6 +109,8 @@ class SettingDataType
     public function setLabel($label)
     {
         $this->label = $label;
+
+        return $this;
     }
 
     /**
@@ -123,6 +127,8 @@ class SettingDataType
     public function setRequired($required)
     {
         $this->required = $required;
+
+        return $this;
     }
 
     /**
@@ -139,6 +145,8 @@ class SettingDataType
     public function setFieldType($fieldType)
     {
         $this->fieldType = $fieldType;
+
+        return $this;
     }
 
     /**
@@ -147,6 +155,8 @@ class SettingDataType
     public function addSettingDataValue(SettingDataValue $settingDataValue)
     {
         $this->settingDataValues->add($settingDataValue);
+
+        return $this;
     }
 
     /**
@@ -163,6 +173,8 @@ class SettingDataType
     public function setSettingDataValues($settingDataValues)
     {
         $this->settingDataValues = $settingDataValues;
+
+        return $this;
     }
 
     /**
@@ -213,6 +225,8 @@ class SettingDataType
     public function setOrder($order)
     {
         $this->order = $order;
+
+        return $this;
     }
 
     public function clearSettingEntityTypes()

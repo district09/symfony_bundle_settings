@@ -8,7 +8,10 @@
   "minimum-stability": "stable",
   "require": {
     "php": ">=7.1",
-    "symfony/symfony": ">=3.4"
+    "symfony/symfony": "3.*",
+    "doctrine/orm": "^2.5",
+    "doctrine/doctrine-fixtures-bundle": "^2.3",
+    "phpunit/phpunit": "^6.5"
   },
   "autoload": {
     "psr-4": {
@@ -16,4 +19,3 @@
     }
   }
 }
-

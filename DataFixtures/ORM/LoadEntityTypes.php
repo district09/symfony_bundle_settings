@@ -25,10 +25,12 @@ class LoadEntityTypes extends Fixture
         $entityTypeCollector = $this->container->get(EntityTypeCollector::class);
         $entityTypeNames = [];
 
+        $entityTypeRepository = $manager->getRepository(SettingEntityType::class);
+
         foreach ($entityTypeCollector->getEntityTypes() as $name => $class) {
             $entityTypeNames[] = $name;
 
-            $entityType = $manager->getRepository(SettingEntityType::class)->findOneBy(['name' => $name]);
+            $entityType = $entityTypeRepository->findOneBy(['name' => $name]);
 
             if (is_null($entityType)) {
                 $entityType = new SettingEntityType();
@@ -37,7 +39,7 @@ class LoadEntityTypes extends Fixture
             }
         }
 
-        $entityTypes = $manager->getRepository(SettingEntityType::class)->findAll();
+        $entityTypes = $entityTypeRepository->findAll();
         foreach ($entityTypes as $entityType) {
             if (!in_array($entityType->getName(), $entityTypeNames)) {
                 $manager->remove($entityType);

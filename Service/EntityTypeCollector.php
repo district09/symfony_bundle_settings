@@ -37,7 +37,8 @@ class EntityTypeCollector
      */
     public function getEntityTypeByClass($class)
     {
-        $flippedArr = array_flip(self::$entityTypeList);
+        $entityTypeList = $this->getEntityTypes();
+        $flippedArr = array_flip($entityTypeList);
 
         $name = null;
 

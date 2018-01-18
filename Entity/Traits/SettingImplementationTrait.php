@@ -28,14 +28,6 @@ trait SettingImplementationTrait
     }
 
     /**
-     * @param SettingDataValue $settingDataValue
-     */
-    public function removeSettingDataValue(SettingDataValue $settingDataValue)
-    {
-        $this->getSettingDataValues()->removeElement($settingDataValue);
-    }
-
-    /**
      * @return ArrayCollection
      */
     public function getSettingDataValues()
