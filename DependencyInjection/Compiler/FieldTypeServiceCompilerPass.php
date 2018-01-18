@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\DependencyInjection\Compiler;
 
-
 use DigipolisGent\SettingBundle\Service\FieldTypeServiceCollector;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -28,5 +27,4 @@ class FieldTypeServiceCompilerPass implements CompilerPassInterface
             $definition->addMethodCall('addFieldTypeService', [$class::getName(), $class]);
         }
     }
-
 }

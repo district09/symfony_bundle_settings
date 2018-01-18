@@ -2,7 +2,6 @@
 
 namespace DigipolisGent\SettingBundle;
 
-
 use DigipolisGent\SettingBundle\DependencyInjection\Compiler\DataTypeCompilerPass;
 use DigipolisGent\SettingBundle\DependencyInjection\Compiler\EntityTypeCompilerPass;
 use DigipolisGent\SettingBundle\DependencyInjection\Compiler\FieldTypeServiceCompilerPass;
@@ -26,5 +25,4 @@ class DigipolisGentSettingBundle extends Bundle
         $container->addCompilerPass(new EntityTypeCompilerPass());
         $container->addCompilerPass(new DataTypeCompilerPass());
     }
-
 }

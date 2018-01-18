@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\DependencyInjection\Compiler;
 
-
 use DigipolisGent\SettingBundle\Service\EntityTypeCollector;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
