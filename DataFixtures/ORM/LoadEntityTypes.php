@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\DataFixtures\ORM;
 
-
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 use DigipolisGent\SettingBundle\Service\EntityTypeCollector;
 use Doctrine\Bundle\FixturesBundle\Fixture;

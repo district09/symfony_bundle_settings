@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\Entity\Traits;
 
-
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -42,5 +41,4 @@ trait SettingImplementationTrait
     {
         $this->getSettingDataValues()->clear();
     }
-
 }

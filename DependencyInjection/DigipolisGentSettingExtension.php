@@ -1,5 +1,6 @@
 <?php
 
+
 namespace DigipolisGent\SettingBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
@@ -28,5 +29,5 @@ class DigipolisGentSettingExtension extends Extension
         $loader->load('services.yml');
 
     }
-
 }
+

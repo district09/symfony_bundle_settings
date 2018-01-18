@@ -57,5 +57,4 @@ class IntegerFieldType extends AbstractFieldType
     {
         return (string)$value;
     }
-
 }

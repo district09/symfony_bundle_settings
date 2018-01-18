@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\DataFixtures\ORM;
 
-
 use DigipolisGent\SettingBundle\Entity\SettingDataType;
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 use DigipolisGent\SettingBundle\Service\DataTypeCollector;
@@ -71,7 +70,6 @@ class LoadDataTypes extends Fixture
 
         $manager->flush();
     }
-
 
     /**
      * @return array

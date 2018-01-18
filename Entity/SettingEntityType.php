@@ -87,5 +87,4 @@ class SettingEntityType
     {
         $this->settingDataTypes = $settingDataTypes;
     }
-
 }

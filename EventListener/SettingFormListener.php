@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\EventListener;
 
-
 use DigipolisGent\SettingBundle\Service\FormService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
@@ -53,6 +52,4 @@ class SettingFormListener implements EventSubscriberInterface
     {
         $this->formService->processForm($formEvent->getForm());
     }
-
-
 }

@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\EventListener;
 
-
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 use Doctrine\Common\EventSubscriber;
@@ -66,5 +65,4 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
         ));
 
     }
-
 }

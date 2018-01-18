@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\Service;
 
-
 use DigipolisGent\SettingBundle\Entity\SettingDataType;
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;

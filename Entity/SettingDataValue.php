@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\Entity;
 
-
 use DigipolisGent\SettingBundle\Entity\Traits\IdentifiableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
