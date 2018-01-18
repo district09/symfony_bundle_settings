@@ -18,16 +18,16 @@ class FormService
 {
 
     private $entityManager;
-    private $fieldTypeServiceCollector;
+    private $serviceCollector;
     private $entityTypeCollector;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        FieldTypeServiceCollector $fieldTypeServiceCollector,
+        FieldTypeServiceCollector $serviceCollector,
         EntityTypeCollector $entityTypeCollector
     ) {
         $this->entityManager = $entityManager;
-        $this->fieldTypeServiceCollector = $fieldTypeServiceCollector;
+        $this->serviceCollector = $serviceCollector;
         $this->entityTypeCollector = $entityTypeCollector;
     }
 
@@ -51,7 +51,7 @@ class FormService
         });
 
         foreach ($settingDataTypes as $settingDataType) {
-            $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($settingDataType->getFieldType());
+            $fieldTypeService = $this->serviceCollector->getFieldTypeService($settingDataType->getFieldType());
             $fieldTypeService->setOriginEntity($entity);
 
             $settingDataValue = $this->entityManager->getRepository(SettingDataValue::class)
@@ -106,7 +106,7 @@ class FormService
             $settingDataType = $this->entityManager->getRepository(SettingDataType::class)
                 ->findOneBy(['key' => $settingDataTypeKey]);
 
-            $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($settingDataType->getFieldType());
+            $fieldTypeService = $this->serviceCollector->getFieldTypeService($settingDataType->getFieldType());
             $fieldTypeService->setOriginEntity($entity);
 
             $value = $formElement->getData() ? $fieldTypeService->encodeValue($formElement->getData()) : '';

@@ -34,7 +34,8 @@ class DataTypeCollector
      * @param array $dataType
      * @throws KeyNotFoundException
      */
-    private function checkDataTypeArray(array $dataType){
+    private function checkDataTypeArray(array $dataType)
+    {
         foreach (self::$keys as $key) {
             if (!array_key_exists($key, $dataType)) {
                 throw new KeyNotFoundException();
