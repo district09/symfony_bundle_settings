@@ -24,14 +24,22 @@ class DataTypeCollector
     public function addDataTypes(DataTypeProviderInterface $dataTypeProvider)
     {
         foreach ($dataTypeProvider->getDataTypes() as $dataType) {
-            foreach (self::$keys as $key) {
-                if (!array_key_exists($key, $dataType)) {
-                    throw new KeyNotFoundException();
-                }
-            }
+            $this->checkDataTypeArray($dataType);
         }
 
         static::$dataTypeList = array_merge(static::$dataTypeList, $dataTypeProvider->getDataTypes());
+    }
+
+    /**
+     * @param array $dataType
+     * @throws KeyNotFoundException
+     */
+    private function checkDataTypeArray(array $dataType){
+        foreach (self::$keys as $key) {
+            if (!array_key_exists($key, $dataType)) {
+                throw new KeyNotFoundException();
+            }
+        }
     }
 
     /**

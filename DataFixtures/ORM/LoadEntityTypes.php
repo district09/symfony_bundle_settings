@@ -25,8 +25,9 @@ class LoadEntityTypes extends Fixture
         $entityTypeNames = [];
 
         $entityTypeRepository = $manager->getRepository(SettingEntityType::class);
+        $names = array_keys($entityTypeCollector->getEntityTypes());
 
-        foreach ($entityTypeCollector->getEntityTypes() as $name => $class) {
+        foreach ($names as $name) {
             $entityTypeNames[] = $name;
 
             $entityType = $entityTypeRepository->findOneBy(['name' => $name]);

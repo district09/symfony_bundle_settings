@@ -46,8 +46,8 @@ class FormService
 
         $settingDataTypes = $entityType->getSettingDataTypes()->toArray();
 
-        usort($settingDataTypes, function ($a, $b) {
-            return $a->getOrder() > $b->getOrder();
+        usort($settingDataTypes, function ($dta, $dtb) {
+            return $dta->getOrder() > $dtb->getOrder();
         });
 
         foreach ($settingDataTypes as $settingDataType) {

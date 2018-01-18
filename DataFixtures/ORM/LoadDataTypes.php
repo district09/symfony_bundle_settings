@@ -21,13 +21,12 @@ class LoadDataTypes extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        $settingDataTypeRepository = $manager->getRepository(SettingDataType::class);
+        $dataTypeRepository = $manager->getRepository(SettingDataType::class);
 
         $dataTypeCollector = $this->container->get(DataTypeCollector::class);
         $dataTypeKeys = [];
 
         foreach ($dataTypeCollector->getDataTypes() as $dataTypeArr) {
-
             $key = $dataTypeArr['key'];
             $label = $dataTypeArr['label'];
             $required = $dataTypeArr['required'];
@@ -37,7 +36,7 @@ class LoadDataTypes extends Fixture
 
             $dataTypeKeys[] = $key;
 
-            $dataType = $settingDataTypeRepository->findOneBy(['key' => $key]);
+            $dataType = $dataTypeRepository->findOneBy(['key' => $key]);
 
             if (is_null($dataType)) {
                 $dataType = new SettingDataType();
@@ -61,7 +60,7 @@ class LoadDataTypes extends Fixture
             $manager->persist($dataType);
         }
 
-        $dataTypes = $settingDataTypeRepository->findAll();
+        $dataTypes = $dataTypeRepository->findAll();
         foreach ($dataTypes as $dataType) {
             if (!in_array($dataType->getKey(), $dataTypeKeys)) {
                 $manager->remove($dataType);

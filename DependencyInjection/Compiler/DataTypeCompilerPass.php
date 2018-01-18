@@ -23,8 +23,9 @@ class DataTypeCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition(DataTypeCollector::class);
 
         $taggedServices = $container->findTaggedServiceIds('data_type_provider');
+        $ids = array_keys($taggedServices);
 
-        foreach ($taggedServices as $id => $tags) {
+        foreach ($ids as $id) {
             $serviceDefinition = $container->getDefinition($id);
 
             if ($serviceDefinition->isAbstract()) {

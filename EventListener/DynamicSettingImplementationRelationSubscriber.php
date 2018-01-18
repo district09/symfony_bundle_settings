@@ -29,10 +29,10 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
     /**
      * @param LoadClassMetadataEventArgs $loadClassMetadataEventArgs
      */
-    public function loadClassMetadata(LoadClassMetadataEventArgs $loadClassMetadataEventArgs)
+    public function loadClassMetadata(LoadClassMetadataEventArgs $metadataEventArgs)
     {
-        $namingStrategy = $loadClassMetadataEventArgs->getEntityManager()->getConfiguration()->getNamingStrategy();
-        $metadata = $loadClassMetadataEventArgs->getClassMetadata();
+        $namingStrategy = $metadataEventArgs->getEntityManager()->getConfiguration()->getNamingStrategy();
+        $metadata = $metadataEventArgs->getClassMetadata();
 
         if (!in_array(SettingImplementationTrait::class, class_uses($metadata->getName()))) {
             return;
@@ -63,6 +63,5 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
                 )
             )
         ));
-
     }
 }

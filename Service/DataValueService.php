@@ -16,20 +16,20 @@ class DataValueService
 {
 
     private $entityManager;
-    private $fieldTypeServiceCollector;
+    private $serviceCollector;
 
     /**
      * DataValueService constructor.
      * @param EntityManagerInterface $entityManager
-     * @param FieldTypeServiceCollector $fieldTypeServiceCollector
+     * @param FieldTypeServiceCollector $serviceCollector
      * @param ContainerInterface $container
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        FieldTypeServiceCollector $fieldTypeServiceCollector
+        FieldTypeServiceCollector $serviceCollector
     ) {
         $this->entityManager = $entityManager;
-        $this->fieldTypeServiceCollector = $fieldTypeServiceCollector;
+        $this->serviceCollector = $serviceCollector;
     }
 
     /**
@@ -39,16 +39,16 @@ class DataValueService
      */
     public function getValue($entity, $key)
     {
-        $settingDataValueRepository = $this->entityManager->getRepository(SettingDataValue::class);
+        $dataValueRepository = $this->entityManager->getRepository(SettingDataValue::class);
 
-        $settingDataValue = $settingDataValueRepository->findOneByKey($entity, $key);
+        $settingDataValue = $dataValueRepository->findOneByKey($entity, $key);
 
         if (!$settingDataValue) {
             return null;
         }
 
         $fieldType = $settingDataValue->getSettingDataType()->getFieldType();
-        $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($fieldType);
+        $fieldTypeService = $this->serviceCollector->getFieldTypeService($fieldType);
 
         return $fieldTypeService->decodeValue($settingDataValue->getValue());
     }
@@ -61,13 +61,13 @@ class DataValueService
      */
     public function storeValue($entity, $key, $value)
     {
-        $settingDataValueRepository = $this->entityManager->getRepository(SettingDataValue::class);
+        $dataValueRepository = $this->entityManager->getRepository(SettingDataValue::class);
 
-        $settingDataValue = $settingDataValueRepository->findOneByKey($entity, $key);
+        $settingDataValue = $dataValueRepository->findOneByKey($entity, $key);
 
         if (!$settingDataValue) {
-            $settingDataTypeRepository = $this->entityManager->getRepository(SettingDataType::class);
-            $settingDataType = $settingDataTypeRepository->findOneBy(['key' => $key]);
+            $dataTypeRepository = $this->entityManager->getRepository(SettingDataType::class);
+            $settingDataType = $dataTypeRepository->findOneBy(['key' => $key]);
 
             $settingDataValue = new SettingDataValue();
             $settingDataValue->setSettingDataType($settingDataType);
@@ -76,7 +76,7 @@ class DataValueService
         }
 
         $fieldType = $settingDataValue->getSettingDataType()->getFieldType();
-        $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($fieldType);
+        $fieldTypeService = $this->serviceCollector->getFieldTypeService($fieldType);
 
         $settingDataValue->setValue($fieldTypeService->encodeValue($value));
 
