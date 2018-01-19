@@ -4,8 +4,8 @@
 
 This library allows you to add extra values for instances of predefined entity types.
 These extra values and their characteristics are dynamicly defined in other bundles with the usage of data providers.
-Based on these providers your form will automaticly build and do the necessary validations.
-After saving, these values (strings, integers, array collections, ...) are easily accessible with the services we provide in this bundle so they can be used troughout the project.
+Based on these providers your form will automatically build and do the necessary validations.
+After saving, these values (strings, integers, array collections, ...) are easily accessible with the services we provide in this bundle so they can be used throughout the project.
 
 ## Compatibility
 
@@ -45,7 +45,7 @@ If you are not familiar with symfony we suggest reading the [symfony 3.4 documen
 ## Entity types
 
 Entity types are the the entities we want to assign extra values to. We define these by using the SettingImplementationTrait.
-This requires the ```getSettingImplementationName``` method to be implemented to.
+This requires the ```getSettingImplementationName``` method to be implemented too. We use this name to access the entity types.
 
 ```php
 <?php
@@ -100,7 +100,7 @@ The trait will
  
 ## Field types
 
-These are the the services that will define how an extra configured field behaves in a form and how the data is presented when we want to use it trougout the application.
+These are the services that will define how an extra configured field behaves in a form and how the data is presented when we want to use it throughout the application.
 
 A service needs to extend from the ```AbstractFieldType```. As an example we use one of the predefined field types.
 
@@ -217,9 +217,9 @@ class DataTypeProvider implements DataTypeProviderInterface
 
 All keys are checked 
 
-- key : this is the key you can access the extra setting with if you need it at a later yime
+- key : this is the key you can access the extra setting with if you need it at a later time
 - label : this is the label that will be used in forms
-- field_type: this is the name of the field type that where defined previously
+- field_type: this is the name of the field type that was defined previously
 - entity_types: this is a list of all entity type names that you want this to be available to
 
 
@@ -233,8 +233,8 @@ bin/console doctrine:fixtures:load --append
 
 ## Form building
 
-You can these extra settings to your form by adding an event subscriber to your form builder.
-This subscriber will make sure the form is build and processed as defined in the field types.
+You can add these extra settings to your form by adding an event subscriber to your form builder.
+This subscriber will make sure the form is built and processed as defined in the field types.
 If the data set to the form is not an entity type nothing will happen. This way you can also use the subscriber in generic forms.
 
 ```php
@@ -403,7 +403,7 @@ class BarCheckboxFieldType extends AbstractFieldType
 
 ```
 
-Using ```bar_checkbox``` as a fielf type in your data type provider will :
+Using ```bar_checkbox``` as a field type in your data type provider will :
 
 - Give a list of checkboxes with all bar entities when you generate a form
 - The ```getValue``` function in the ```DataValueService``` will give you a list of ```Bar``` entities
@@ -413,14 +413,4 @@ Using ```bar_checkbox``` as a fielf type in your data type provider will :
  
 - You can have extra properties for the entities that appear and disappear if you activate or deactivate bundles. 
 - The field types give the possibility to reuse code multiple times.
-- You can change the structure in a mather of seconds by changing the dataprovider array
-
-
-
-
-
-
-
-
-
-
+- You can change the structure in a matter of seconds by changing the dataprovider array
