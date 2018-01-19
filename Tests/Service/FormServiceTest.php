@@ -33,28 +33,13 @@ class FormServiceTest extends TestCase
             new Bar()
         );
 
-        $repositories = [
-            [
-                'class' => SettingEntityType::class,
-                'returnValue' => $this->getSettingEntityTypeRepositoryMock(
-                    null
-                ),
-            ]
-        ];
-
-        $entityManager = $this->getEntityManagerMock($repositories);
+        $entityManager = $this->getEntityManagerMock([]);
 
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollectorMock();
 
-        $entityTypeCollector = $this->getEntityTypeCollectorMock(
-            Bar::class,
-            null
-        );
-
         $formService = new FormService(
             $entityManager,
-            $fieldTypeServiceCollector,
-            $entityTypeCollector
+            $fieldTypeServiceCollector
         );
 
         $formService->addConfig($form);
@@ -116,12 +101,10 @@ class FormServiceTest extends TestCase
             'string' => new StringFieldType(),
         ]);
 
-        $entityTypeCollector = $this->getEntityTypeCollectorMock(Foo::class, 'foo');
 
         $formService = new FormService(
             $entityManager,
-            $fieldTypeCollector,
-            $entityTypeCollector
+            $fieldTypeCollector
         );
 
         $formService->addConfig($form);
@@ -150,12 +133,9 @@ class FormServiceTest extends TestCase
         $entityManager = $this->getEntityManagerMock([]);
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollectorMock();
 
-        $entityTypeCollector = $this->getEntityTypeCollectorMock(Bar::class, null);
-
         $formService = new FormService(
             $entityManager,
-            $fieldTypeServiceCollector,
-            $entityTypeCollector
+            $fieldTypeServiceCollector
         );
 
         $formService->processForm($form);
@@ -181,12 +161,9 @@ class FormServiceTest extends TestCase
         $entityManager = $this->getEntityManagerMock([]);
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollectorMock();
 
-        $entityTypeCollector = $this->getEntityTypeCollectorMock(Bar::class, null);
-
         $formService = new FormService(
             $entityManager,
-            $fieldTypeServiceCollector,
-            $entityTypeCollector
+            $fieldTypeServiceCollector
         );
 
         $formService->processForm($form);
@@ -235,12 +212,10 @@ class FormServiceTest extends TestCase
 
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollectorMock($fieldTypeServices);
 
-        $entityTypeCollector = $this->getEntityTypeCollectorMock(Foo::class, 'foo');
 
         $formService = new FormService(
             $entityManager,
-            $fieldTypeServiceCollector,
-            $entityTypeCollector
+            $fieldTypeServiceCollector
         );
 
         $result = $formService->processForm($form);
@@ -348,21 +323,6 @@ class FormServiceTest extends TestCase
                 ->with($this->equalTo($name))
                 ->willReturn($instance);
         }
-
-        return $mock;
-    }
-
-    private function getEntityTypeCollectorMock($className, $return)
-    {
-        $mock = $this
-            ->getMockBuilder(EntityTypeCollector::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $mock
-            ->method('getEntityTypeByClass')
-            ->with($this->equalTo($className))
-            ->willReturn($return);
 
         return $mock;
     }

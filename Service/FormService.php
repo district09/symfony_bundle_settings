@@ -19,16 +19,13 @@ class FormService
 
     private $entityManager;
     private $serviceCollector;
-    private $entityTypeCollector;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        FieldTypeServiceCollector $serviceCollector,
-        EntityTypeCollector $entityTypeCollector
+        FieldTypeServiceCollector $serviceCollector
     ) {
         $this->entityManager = $entityManager;
         $this->serviceCollector = $serviceCollector;
-        $this->entityTypeCollector = $entityTypeCollector;
     }
 
     public function addConfig(Form $form)
@@ -36,13 +33,13 @@ class FormService
         $entity = $form->getData();
         $class = get_class($entity);
 
-        $entityTypeName = $this->entityTypeCollector->getEntityTypeByClass($class);
-        $entityType = $this->entityManager->getRepository(SettingEntityType::class)
-            ->findOneBy(['name' => $entityTypeName]);
-
-        if (is_null($entityType)) {
+        if (!in_array(SettingImplementationTrait::class, class_uses($class))) {
             return;
         }
+
+        $entityTypeName = $class::getSettingImplementationName();
+        $entityType = $this->entityManager->getRepository(SettingEntityType::class)
+            ->findOneBy(['name' => $entityTypeName]);
 
         $settingDataTypes = $entityType->getSettingDataTypes()->toArray();
 

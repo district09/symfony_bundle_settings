@@ -26,6 +26,5 @@ services:
         tags:
             - { name: form.type}
     DigipolisGent\SettingBundle\Service\FormService:
-    DigipolisGent\SettingBundle\Service\EntityTypeCollector:
     DigipolisGent\SettingBundle\Service\DataTypeCollector:
     DigipolisGent\SettingBundle\Service\DataValueService:

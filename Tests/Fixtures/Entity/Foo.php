@@ -11,4 +11,9 @@ class Foo
 {
     use IdentifiableTrait;
     use SettingImplementationTrait;
+
+    public static function getSettingImplementationName()
+    {
+        return 'foo';
+    }
 }

@@ -41,4 +41,6 @@ trait SettingImplementationTrait
     {
         $this->getSettingDataValues()->clear();
     }
+
+    abstract static function getSettingImplementationName();
 }

@@ -4,6 +4,7 @@
 namespace DigipolisGent\SettingBundle\DataFixtures\ORM;
 
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;
+use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 use DigipolisGent\SettingBundle\Service\EntityTypeCollector;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -20,21 +21,25 @@ class LoadEntityTypes extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-
-        $entityTypeCollector = $this->container->get(EntityTypeCollector::class);
-        $entityTypeNames = [];
-
         $entityTypeRepository = $manager->getRepository(SettingEntityType::class);
-        $names = array_keys($entityTypeCollector->getEntityTypes());
+        $entityTypeNames = [];
+        $allMetadata = $manager->getMetadataFactory()->getAllMetadata();
 
-        foreach ($names as $name) {
-            $entityTypeNames[] = $name;
+        foreach ($allMetadata as $metadata) {
+            $className = $metadata->getName();
 
-            $entityType = $entityTypeRepository->findOneBy(['name' => $name]);
+            if (!in_array(SettingImplementationTrait::class, class_uses($className))) {
+                continue;
+            }
+
+            $entityTypeName = $className::getSettingImplementationName();
+            $entityTypeNames[] = $entityTypeName;
+
+            $entityType = $entityTypeRepository->findOneBy(['name' => $entityTypeName]);
 
             if (is_null($entityType)) {
                 $entityType = new SettingEntityType();
-                $entityType->setName($name);
+                $entityType->setName($entityTypeName);
                 $manager->persist($entityType);
             }
         }
@@ -45,7 +50,5 @@ class LoadEntityTypes extends Fixture
                 $manager->remove($entityType);
             }
         }
-
-        $manager->flush();
     }
 }

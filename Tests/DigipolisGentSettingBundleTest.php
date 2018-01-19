@@ -23,9 +23,6 @@ class DigipolisGentSettingBundleTest extends TestCase
             ->with($this->isInstanceOf(FieldTypeServiceCompilerPass::class));
 
         $container->expects($this->at(1))->method('addCompilerPass')
-            ->with($this->isInstanceOf(EntityTypeCompilerPass::class));
-
-        $container->expects($this->at(2))->method('addCompilerPass')
             ->with($this->isInstanceOf(DataTypeCompilerPass::class));
 
         $bundle->build($container);
