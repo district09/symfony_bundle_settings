@@ -28,5 +28,4 @@ class DisabledIntegerFieldType extends IntegerFieldType
         $options['attr']['disabled'] = true;
         return $options;
     }
-
 }

@@ -28,5 +28,4 @@ class DisabledStringFieldType extends StringFieldType
         $options['attr']['disabled'] = true;
         return $options;
     }
-
 }

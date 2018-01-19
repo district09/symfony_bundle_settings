@@ -13,16 +13,6 @@ class StringFieldType extends AbstractFieldType
 {
 
     /**
-     * @param $value
-     * @return array
-     */
-    public function validate($value): array
-    {
-        $errorMessages = [];
-        return $errorMessages;
-    }
-
-    /**
      * @return string
      */
     public static function getName(): string
@@ -47,14 +37,5 @@ class StringFieldType extends AbstractFieldType
         $options = [];
         $options['attr']['value'] = $value ? $value : '';
         return $options;
-    }
-
-    /**
-     * @param $value
-     * @return string
-     */
-    public function encodeValue($value): string
-    {
-        return $value;
     }
 }

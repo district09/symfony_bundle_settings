@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\FieldType;
 
-
 use Doctrine\ORM\Mapping\Entity;
 
 /**
@@ -40,5 +39,4 @@ abstract class AbstractFieldType implements FieldTypeInterface
     {
         return $value;
     }
-
 }

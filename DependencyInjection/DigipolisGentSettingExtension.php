@@ -1,5 +1,6 @@
 <?php
 
+
 namespace DigipolisGent\SettingBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
@@ -20,13 +21,10 @@ class DigipolisGentSettingExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $containerBuilder)
     {
-
         $loader = new YamlFileLoader(
             $containerBuilder,
             new FileLocator(__DIR__ . '/../Resources/config')
         );
         $loader->load('services.yml');
-
     }
-
 }

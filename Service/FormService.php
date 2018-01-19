@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\Service;
 
-
 use DigipolisGent\SettingBundle\Entity\SettingDataType;
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;
@@ -19,16 +18,16 @@ class FormService
 {
 
     private $entityManager;
-    private $fieldTypeServiceCollector;
+    private $serviceCollector;
     private $entityTypeCollector;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        FieldTypeServiceCollector $fieldTypeServiceCollector,
+        FieldTypeServiceCollector $serviceCollector,
         EntityTypeCollector $entityTypeCollector
     ) {
         $this->entityManager = $entityManager;
-        $this->fieldTypeServiceCollector = $fieldTypeServiceCollector;
+        $this->serviceCollector = $serviceCollector;
         $this->entityTypeCollector = $entityTypeCollector;
     }
 
@@ -38,7 +37,6 @@ class FormService
         $class = get_class($entity);
 
         $entityTypeName = $this->entityTypeCollector->getEntityTypeByClass($class);
-
         $entityType = $this->entityManager->getRepository(SettingEntityType::class)
             ->findOneBy(['name' => $entityTypeName]);
 
@@ -47,17 +45,17 @@ class FormService
         }
 
         $settingDataTypes = $entityType->getSettingDataTypes()->toArray();
-        usort($settingDataTypes, function ($a, $b) {
-            return $a->getOrder() > $b->getOrder();
+
+        usort($settingDataTypes, function ($dta, $dtb) {
+            return $dta->getOrder() > $dtb->getOrder();
         });
 
         foreach ($settingDataTypes as $settingDataType) {
-            $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($settingDataType->getFieldType());
+            $fieldTypeService = $this->serviceCollector->getFieldTypeService($settingDataType->getFieldType());
             $fieldTypeService->setOriginEntity($entity);
 
-            $settingDataValue = $this->entityManager->getRepository(SettingDataValue::class)->findOneByKey($entity,
-                $settingDataType->getKey());
-
+            $settingDataValue = $this->entityManager->getRepository(SettingDataValue::class)
+                ->findOneByKey($entity, $settingDataType->getKey());
 
             $options = [
                 'label' => $settingDataType->getLabel(),
@@ -108,7 +106,7 @@ class FormService
             $settingDataType = $this->entityManager->getRepository(SettingDataType::class)
                 ->findOneBy(['key' => $settingDataTypeKey]);
 
-            $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($settingDataType->getFieldType());
+            $fieldTypeService = $this->serviceCollector->getFieldTypeService($settingDataType->getFieldType());
             $fieldTypeService->setOriginEntity($entity);
 
             $value = $formElement->getData() ? $fieldTypeService->encodeValue($formElement->getData()) : '';

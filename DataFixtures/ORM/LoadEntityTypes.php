@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\DataFixtures\ORM;
 
-
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 use DigipolisGent\SettingBundle\Service\EntityTypeCollector;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -25,10 +24,13 @@ class LoadEntityTypes extends Fixture
         $entityTypeCollector = $this->container->get(EntityTypeCollector::class);
         $entityTypeNames = [];
 
-        foreach ($entityTypeCollector->getEntityTypes() as $name => $class) {
+        $entityTypeRepository = $manager->getRepository(SettingEntityType::class);
+        $names = array_keys($entityTypeCollector->getEntityTypes());
+
+        foreach ($names as $name) {
             $entityTypeNames[] = $name;
 
-            $entityType = $manager->getRepository(SettingEntityType::class)->findOneBy(['name' => $name]);
+            $entityType = $entityTypeRepository->findOneBy(['name' => $name]);
 
             if (is_null($entityType)) {
                 $entityType = new SettingEntityType();
@@ -37,7 +39,7 @@ class LoadEntityTypes extends Fixture
             }
         }
 
-        $entityTypes = $manager->getRepository(SettingEntityType::class)->findAll();
+        $entityTypes = $entityTypeRepository->findAll();
         foreach ($entityTypes as $entityType) {
             if (!in_array($entityType->getName(), $entityTypeNames)) {
                 $manager->remove($entityType);

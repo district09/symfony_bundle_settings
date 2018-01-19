@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\Entity;
 
-
 use DigipolisGent\SettingBundle\Entity\Traits\IdentifiableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -65,10 +64,4 @@ class SettingDataValue
     {
         $this->settingDataType = $settingDataType;
     }
-
-    public function __toString()
-    {
-        return $this->value;
-    }
-
 }

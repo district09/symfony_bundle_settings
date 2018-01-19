@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\Entity\Repository;
 
-
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
@@ -44,5 +43,4 @@ class SettingDataValueRepository extends EntityRepository
 
         return $query->getOneOrNullResult();
     }
-
 }
