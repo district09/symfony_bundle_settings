@@ -33,6 +33,11 @@ class FormService
         $entity = $form->getData();
         $class = get_class($entity);
 
+        $parentClass = get_parent_class($class);
+        if ($parentClass) {
+            $class = $parentClass;
+        }
+
         if (!in_array(SettingImplementationTrait::class, class_uses($class))) {
             return;
         }
