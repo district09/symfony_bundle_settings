@@ -44,11 +44,15 @@ class LoadEntityTypes extends Fixture
             }
         }
 
+        $manager->flush();
+
         $entityTypes = $entityTypeRepository->findAll();
         foreach ($entityTypes as $entityType) {
             if (!in_array($entityType->getName(), $entityTypeNames)) {
                 $manager->remove($entityType);
             }
         }
+
+        $manager->flush();
     }
 }
