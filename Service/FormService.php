@@ -120,6 +120,9 @@ class FormService
             $entity->addSettingDataValue($settingDataValue);
         };
 
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
+
         return $entity;
     }
 }
