@@ -18,6 +18,9 @@ services:
     DigipolisGent\SettingBundle\FieldType\IntegerFieldType:
         tags:
             - { name: field_type}
+    DigipolisGent\SettingBundle\FieldType\FileLocationFieldType:
+        tags:
+            - { name: field_type}
     DigipolisGent\SettingBundle\Service\FieldTypeServiceCollector:
     DigipolisGent\SettingBundle\EventListener\DynamicSettingImplementationRelationSubscriber:
         tags:
