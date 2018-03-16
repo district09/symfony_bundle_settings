@@ -71,6 +71,13 @@ class SettingDataType
      */
     private $order;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="default_value",type="string")
+     */
+    private $defaultValue;
+
     public function __construct()
     {
         $this->settingDataValues = new ArrayCollection();
@@ -232,5 +239,21 @@ class SettingDataType
     public function clearSettingEntityTypes()
     {
         $this->settingEntityTypes->clear();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultValue(): ?string
+    {
+        return $this->defaultValue;
+    }
+
+    /**
+     * @param string $defaultValue
+     */
+    public function setDefaultValue(string $defaultValue = null)
+    {
+        $this->defaultValue = $defaultValue;
     }
 }

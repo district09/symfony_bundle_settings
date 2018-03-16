@@ -33,6 +33,7 @@ class LoadDataTypes extends Fixture
             $fieldType = $dataTypeArr['field_type'];
             $entityTypeNames = $dataTypeArr['entity_types'];
             $order = isset($dataTypeArr['order']) ? $dataTypeArr['order'] : null;
+            $defaultValue = isset($dataTypeArr['default_value']) ? $dataTypeArr['default_value'] : null;
 
             $dataTypeKeys[] = $key;
 
@@ -47,6 +48,7 @@ class LoadDataTypes extends Fixture
             $dataType->setRequired($required);
             $dataType->setFieldType($fieldType);
             $dataType->setOrder($order);
+            $dataType->setDefaultValue($defaultValue);
 
             $dataType->clearSettingEntityTypes();
 

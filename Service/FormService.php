@@ -63,6 +63,7 @@ class FormService
                 'label' => $settingDataType->getLabel(),
                 'required' => $settingDataType->isRequired(),
                 'mapped' => false,
+                'data' => $settingDataType->getDefaultValue(),
             ];
 
             $value = $settingDataValue ? $settingDataValue->getValue() : '';
