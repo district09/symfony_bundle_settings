@@ -74,7 +74,7 @@ class SettingDataType
     /**
      * @var string
      *
-     * @ORM\Column(name="default_value",type="string")
+     * @ORM\Column(name="default_value",type="string",nullable=true)
      */
     private $defaultValue;
 
