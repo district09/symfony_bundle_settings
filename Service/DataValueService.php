@@ -80,8 +80,8 @@ class DataValueService
 
         $settingDataValue->setValue($fieldTypeService->encodeValue($value));
 
-        $this->entityManager->persist($entity);
         $this->entityManager->persist($settingDataValue);
+        $this->entityManager->persist($entity);
         $this->entityManager->flush();
 
         return $settingDataValue;
