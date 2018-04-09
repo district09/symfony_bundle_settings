@@ -9,6 +9,7 @@ use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Form;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class FormService
@@ -73,6 +74,10 @@ class FormService
             $value = $settingDataValue ? $settingDataValue->getValue() : '';
 
             $options = array_merge($options, $fieldTypeService->getOptions($value));
+
+            if($settingDataType->isRequired()){
+                $options['constraints'][] = new NotBlank();
+            }
 
             $form->add(
                 'config_' . $settingDataType->getKey(),
