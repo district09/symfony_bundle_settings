@@ -25,14 +25,16 @@ class SettingDataValueRepository extends EntityRepository
         }
 
         $namingStrategy = $this->_em->getConfiguration()->getNamingStrategy();
-        $column = strtolower($namingStrategy->classToTableName($class));
+
+        $joinTableName = strtolower(ltrim(preg_replace('/[A-Z]/', '_$0', $namingStrategy->classToTableName($class)), '_')).'_data_value';
+        $joinColumnName = strtolower(ltrim(preg_replace('/[A-Z]/', '_$0', $namingStrategy->classToTableName($class)), '_')).'_id';
 
         $sql = "SELECT dv.id,dv.setting_v_value,setting_data_type_id " .
             "FROM setting_data_value dv " .
             "LEFT JOIN setting_data_type dt ON dt.id = dv.setting_data_type_id " .
-            "INNER JOIN " . $column . "_data_value e ON e.data_value_id = dv.id " .
+            "INNER JOIN " . $joinTableName . " e ON e.data_value_id = dv.id " .
             "WHERE dt.setting_dt_key = ? " .
-            "AND e." . $column . "_id = ? ";
+            "AND e." . $joinColumnName . " = ? ";
 
         $rsm = new ResultSetMappingBuilder($this->_em);
         $rsm->addRootEntityFromClassMetadata(SettingDataValue::class, 'dv');

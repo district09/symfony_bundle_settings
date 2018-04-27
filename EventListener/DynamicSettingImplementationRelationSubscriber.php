@@ -38,16 +38,19 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
             return;
         }
 
+        $joinTableName = strtolower(ltrim(preg_replace('/[A-Z]/', '_$0', $namingStrategy->classToTableName($metadata->getName())), '_')).'_data_value';
+        $joinColumnName = strtolower(ltrim(preg_replace('/[A-Z]/', '_$0', $namingStrategy->classToTableName($metadata->getName())), '_')).'_id';
+
         $metadata->mapManyToMany(array(
             'targetEntity' => SettingDataValue::class,
             'fieldName' => 'settingDataValues',
             'cascade' => array('all'),
             'orphanRemoval' => true,
             'joinTable' => array(
-                'name' => strtolower($namingStrategy->classToTableName($metadata->getName())) . '_data_value',
+                'name' => $joinTableName,
                 'joinColumns' => array(
                     array(
-                        'name' => $namingStrategy->joinKeyColumnName($metadata->getName()),
+                        'name' => $joinColumnName,
                         'referencedColumnName' => $namingStrategy->referenceColumnName(),
                         'onDelete' => 'CASCADE',
                         'onUpdate' => 'CASCADE',
