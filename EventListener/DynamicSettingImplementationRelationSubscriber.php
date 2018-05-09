@@ -8,6 +8,7 @@ use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\ORM\Mapping\NamingStrategy;
 
 /**
  * Class DynamicSettingImplementationRelationSubscriber
@@ -31,15 +32,15 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
      */
     public function loadClassMetadata(LoadClassMetadataEventArgs $metadataEventArgs)
     {
-        $namingStrategy = $metadataEventArgs->getEntityManager()->getConfiguration()->getNamingStrategy();
         $metadata = $metadataEventArgs->getClassMetadata();
 
         if (!in_array(SettingImplementationTrait::class, class_uses($metadata->getName()))) {
             return;
         }
 
-        $joinTableName = strtolower(ltrim(preg_replace('/[A-Z]/', '_$0', $namingStrategy->classToTableName($metadata->getName())), '_')).'_data_value';
-        $joinColumnName = strtolower(ltrim(preg_replace('/[A-Z]/', '_$0', $namingStrategy->classToTableName($metadata->getName())), '_')).'_id';
+        $namingStrategy = $metadataEventArgs->getEntityManager()->getConfiguration()->getNamingStrategy();
+        $namePrefix = $namingStrategy->classToTableName($metadata->getName());
+        $namePrefix = strtolower(ltrim(preg_replace('/[A-Z]/', '_$0', $namePrefix), '_'));
 
         $metadata->mapManyToMany(array(
             'targetEntity' => SettingDataValue::class,
@@ -47,10 +48,10 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
             'cascade' => array('all'),
             'orphanRemoval' => true,
             'joinTable' => array(
-                'name' => $joinTableName,
+                'name' => $namePrefix . '_data_value',
                 'joinColumns' => array(
                     array(
-                        'name' => $joinColumnName,
+                        'name' => $namePrefix . '_id',
                         'referencedColumnName' => $namingStrategy->referenceColumnName(),
                         'onDelete' => 'CASCADE',
                         'onUpdate' => 'CASCADE',
