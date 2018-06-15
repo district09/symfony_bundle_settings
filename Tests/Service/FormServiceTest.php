@@ -62,11 +62,11 @@ class FormServiceTest extends TestCase
         $settingEntityType->setName('foo');
 
         $settingEntityType->addSettingDataType((new SettingDataType())->setOrder(0)->setKey('one')
-            ->setFieldType('string')->setRequired(true)->setLabel('one'));
+            ->setFieldType('string')->setRequired(false)->setLabel('one'));
         $settingEntityType->addSettingDataType((new SettingDataType())->setOrder(2)->setKey('three')
-            ->setFieldType('string')->setRequired(true)->setLabel('three'));
+            ->setFieldType('string')->setRequired(false)->setLabel('three'));
         $settingEntityType->addSettingDataType((new SettingDataType())->setOrder(1)->setKey('two')
-            ->setFieldType('string')->setRequired(true)->setLabel('two'));
+            ->setFieldType('string')->setRequired(false)->setLabel('two'));
 
         $repositories = [
             [
