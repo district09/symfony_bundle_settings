@@ -31,13 +31,17 @@ class DynamicSettingImplementationRelationSubscriberTest extends TestCase
 
     public function testLoadClassMetadataWithoutSettingsImplementation()
     {
-        $namingStrategy = $this->getNamingStrategyMock();
-        $configuration = $this->getConfigurationMock($namingStrategy);
-        $entityManager = $this->getEntityManagerMock($configuration);
-
         $metadata = $this->getMetadataMock(Bar::class);
 
-        $loadClassMetadataEventArgsMock = $this->getLoadClassMetadataEventArgsMock($entityManager, $metadata);
+        $loadClassMetadataEventArgsMock = $this
+            ->getMockBuilder(LoadClassMetadataEventArgs::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $loadClassMetadataEventArgsMock
+            ->expects($this->at(0))
+            ->method('getClassMetadata')
+            ->willReturn($metadata);
 
         $subscriber = new DynamicSettingImplementationRelationSubscriber();
         $subscriber->loadClassMetadata($loadClassMetadataEventArgsMock);
@@ -66,13 +70,13 @@ class DynamicSettingImplementationRelationSubscriberTest extends TestCase
 
         $mock
             ->expects($this->at(0))
-            ->method('getEntityManager')
-            ->willReturn($entityManager);
+            ->method('getClassMetadata')
+            ->willReturn($metadata);
 
         $mock
             ->expects($this->at(1))
-            ->method('getClassMetadata')
-            ->willReturn($metadata);
+            ->method('getEntityManager')
+            ->willReturn($entityManager);
 
         return $mock;
     }
