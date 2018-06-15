@@ -43,4 +43,15 @@ trait SettingImplementationTrait
     }
 
     abstract static function getSettingImplementationName();
+
+    public function getConfig(string $key): ?string
+    {
+        foreach ($this->getSettingDataValues() as $settingDataValue) {
+            if ($settingDataValue->getSettingDataType()->getKey() == $key) {
+                return $settingDataValue->getValue();
+            }
+        }
+
+        return '';
+    }
 }
