@@ -25,7 +25,9 @@ class DisabledIntegerFieldType extends IntegerFieldType
     public function getOptions($value): array
     {
         $options = parent::getOptions($value);
-        $options['attr']['disabled'] = true;
+        // Do not use the disabled attribute because it will remove the existing
+        // value.
+        $options['attr']['readonly'] = true;
         return $options;
     }
 }
