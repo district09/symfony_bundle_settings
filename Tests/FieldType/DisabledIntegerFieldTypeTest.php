@@ -22,11 +22,10 @@ class DisabledIntegerFieldTypeTest extends TestCase
             'attr' => [
                 'min' => 0,
                 'value' => 100,
-                'disabled' => true
+                'readonly' => true
             ]
         ];
 
-        $this->assertEquals($expected, $integerFieldType->getOptions('100'));
         $this->assertEquals($expected, $integerFieldType->getOptions(100));
     }
 }

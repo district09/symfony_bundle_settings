@@ -21,7 +21,7 @@ class DisabledStringFieldTypeTest extends TestCase
         $expected = [
             'attr' => [
                 'value' => 'random',
-                'disabled' => true
+                'readonly' => true
             ]
         ];
         $this->assertEquals($expected, $disabledStringFieldType->getOptions('random'));
