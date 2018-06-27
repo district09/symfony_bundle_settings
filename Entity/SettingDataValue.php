@@ -21,7 +21,7 @@ class SettingDataValue
     /**
      * @var string
      *
-     * @ORM\Column(name="setting_v_value",type="text")
+     * @ORM\Column(name="setting_v_value",type="text", nullable=true, options={"default": null})
      */
     private $value;
 
