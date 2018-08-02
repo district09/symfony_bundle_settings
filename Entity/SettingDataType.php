@@ -7,8 +7,6 @@ use DigipolisGent\SettingBundle\Entity\Traits\IdentifiableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use DigipolisGent\SettingBundle\Entity\SettingDataValue;
-use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 
 /**
  * Class SettingDataType
@@ -73,6 +71,13 @@ class SettingDataType
      */
     private $order;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="default_value",type="string",nullable=true)
+     */
+    private $defaultValue;
+
     public function __construct()
     {
         $this->settingDataValues = new ArrayCollection();
@@ -93,6 +98,8 @@ class SettingDataType
     public function setKey($key)
     {
         $this->key = $key;
+
+        return $this;
     }
 
     /**
@@ -109,6 +116,8 @@ class SettingDataType
     public function setLabel($label)
     {
         $this->label = $label;
+
+        return $this;
     }
 
     /**
@@ -125,6 +134,8 @@ class SettingDataType
     public function setRequired($required)
     {
         $this->required = $required;
+
+        return $this;
     }
 
     /**
@@ -141,6 +152,8 @@ class SettingDataType
     public function setFieldType($fieldType)
     {
         $this->fieldType = $fieldType;
+
+        return $this;
     }
 
     /**
@@ -149,6 +162,8 @@ class SettingDataType
     public function addSettingDataValue(SettingDataValue $settingDataValue)
     {
         $this->settingDataValues->add($settingDataValue);
+
+        return $this;
     }
 
     /**
@@ -165,6 +180,8 @@ class SettingDataType
     public function setSettingDataValues($settingDataValues)
     {
         $this->settingDataValues = $settingDataValues;
+
+        return $this;
     }
 
     /**
@@ -215,9 +232,28 @@ class SettingDataType
     public function setOrder($order)
     {
         $this->order = $order;
+
+        return $this;
     }
 
-    public function clearSettingEntityTypes(){
+    public function clearSettingEntityTypes()
+    {
         $this->settingEntityTypes->clear();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultValue(): ?string
+    {
+        return $this->defaultValue;
+    }
+
+    /**
+     * @param string $defaultValue
+     */
+    public function setDefaultValue(string $defaultValue = null)
+    {
+        $this->defaultValue = $defaultValue;
     }
 }

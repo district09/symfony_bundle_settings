@@ -3,12 +3,12 @@
 
 namespace DigipolisGent\SettingBundle\EventListener;
 
-
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\ORM\Mapping\NamingStrategy;
 
 /**
  * Class DynamicSettingImplementationRelationSubscriber
@@ -30,14 +30,17 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
     /**
      * @param LoadClassMetadataEventArgs $loadClassMetadataEventArgs
      */
-    public function loadClassMetadata(LoadClassMetadataEventArgs $loadClassMetadataEventArgs)
+    public function loadClassMetadata(LoadClassMetadataEventArgs $metadataEventArgs)
     {
-        $namingStrategy = $loadClassMetadataEventArgs->getEntityManager()->getConfiguration()->getNamingStrategy();
-        $metadata = $loadClassMetadataEventArgs->getClassMetadata();
+        $metadata = $metadataEventArgs->getClassMetadata();
 
-        if(!in_array(SettingImplementationTrait::class,class_uses($metadata->getName()))){
+        if (!in_array(SettingImplementationTrait::class, class_uses($metadata->getName()))) {
             return;
         }
+
+        $namingStrategy = $metadataEventArgs->getEntityManager()->getConfiguration()->getNamingStrategy();
+        $namePrefix = $namingStrategy->classToTableName($metadata->getName());
+        $namePrefix = strtolower(ltrim(preg_replace('/[A-Z]/', '_$0', $namePrefix), '_'));
 
         $metadata->mapManyToMany(array(
             'targetEntity' => SettingDataValue::class,
@@ -45,10 +48,10 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
             'cascade' => array('all'),
             'orphanRemoval' => true,
             'joinTable' => array(
-                'name' => strtolower($namingStrategy->classToTableName($metadata->getName())) . '_data_value',
+                'name' => $namePrefix . '_data_value',
                 'joinColumns' => array(
                     array(
-                        'name' => $namingStrategy->joinKeyColumnName($metadata->getName()),
+                        'name' => $namePrefix . '_id',
                         'referencedColumnName' => $namingStrategy->referenceColumnName(),
                         'onDelete' => 'CASCADE',
                         'onUpdate' => 'CASCADE',
@@ -64,7 +67,5 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
                 )
             )
         ));
-
     }
-
 }

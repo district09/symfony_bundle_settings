@@ -51,5 +51,4 @@ class BooleanFieldType extends AbstractFieldType
     {
         return (boolean)$value;
     }
-
 }

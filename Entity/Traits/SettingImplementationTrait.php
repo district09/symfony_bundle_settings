@@ -3,7 +3,6 @@
 
 namespace DigipolisGent\SettingBundle\Entity\Traits;
 
-
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -28,19 +27,11 @@ trait SettingImplementationTrait
     }
 
     /**
-     * @param SettingDataValue $settingDataValue
-     */
-    public function removeSettingDataValue(SettingDataValue $settingDataValue)
-    {
-        $this->getSettingDataValues()->removeElement($settingDataValue);
-    }
-
-    /**
      * @return ArrayCollection
      */
     public function getSettingDataValues()
     {
-        if(is_null($this->settingDataValues)){
+        if (is_null($this->settingDataValues)) {
             $this->settingDataValues = new ArrayCollection();
         }
         return $this->settingDataValues;
@@ -51,4 +42,16 @@ trait SettingImplementationTrait
         $this->getSettingDataValues()->clear();
     }
 
+    abstract static function getSettingImplementationName();
+
+    public function getConfig(string $key): ?string
+    {
+        foreach ($this->getSettingDataValues() as $settingDataValue) {
+            if ($settingDataValue->getSettingDataType()->getKey() == $key) {
+                return $settingDataValue->getValue();
+            }
+        }
+
+        return '';
+    }
 }

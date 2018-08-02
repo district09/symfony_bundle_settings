@@ -7,7 +7,6 @@ use DigipolisGent\SettingBundle\Entity\Traits\IdentifiableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use DigipolisGent\SettingBundle\Entity\SettingDataType;
 
 /**
  * Class SettingEntityType
@@ -88,5 +87,4 @@ class SettingEntityType
     {
         $this->settingDataTypes = $settingDataTypes;
     }
-
 }

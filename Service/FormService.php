@@ -3,18 +3,13 @@
 
 namespace DigipolisGent\SettingBundle\Service;
 
-
-use DigipolisGent\Domainator9k\CoreBundle\Entity\AbstractApplication;
 use DigipolisGent\SettingBundle\Entity\SettingDataType;
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
-use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Class FormService
@@ -24,17 +19,14 @@ class FormService
 {
 
     private $entityManager;
-    private $fieldTypeServiceCollector;
-    private $entityTypeCollector;
+    private $serviceCollector;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        FieldTypeServiceCollector $fieldTypeServiceCollector,
-        EntityTypeCollector $entityTypeCollector
+        FieldTypeServiceCollector $serviceCollector
     ) {
         $this->entityManager = $entityManager;
-        $this->fieldTypeServiceCollector = $fieldTypeServiceCollector;
-        $this->entityTypeCollector = $entityTypeCollector;
+        $this->serviceCollector = $serviceCollector;
     }
 
     public function addConfig(Form $form)
@@ -42,27 +34,31 @@ class FormService
         $entity = $form->getData();
         $class = get_class($entity);
 
-        $entityTypeName = $this->entityTypeCollector->getEntityTypeByClass($class);
+        $parentClass = get_parent_class($class);
+        if ($parentClass) {
+            $class = $parentClass;
+        }
 
-        $entityType = $this->entityManager->getRepository(SettingEntityType::class)
-            ->findOneBy(['name' => $entityTypeName]);
-
-        if (is_null($entityType)) {
+        if (!in_array(SettingImplementationTrait::class, class_uses($class))) {
             return;
         }
 
+        $entityTypeName = $class::getSettingImplementationName();
+        $entityType = $this->entityManager->getRepository(SettingEntityType::class)
+            ->findOneBy(['name' => $entityTypeName]);
+
         $settingDataTypes = $entityType->getSettingDataTypes()->toArray();
-        usort($settingDataTypes, function ($a, $b) {
-            return $a->getOrder() > $b->getOrder();
+
+        usort($settingDataTypes, function ($dta, $dtb) {
+            return $dta->getOrder() > $dtb->getOrder();
         });
 
         foreach ($settingDataTypes as $settingDataType) {
-            $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($settingDataType->getFieldType());
+            $fieldTypeService = $this->serviceCollector->getFieldTypeService($settingDataType->getFieldType());
             $fieldTypeService->setOriginEntity($entity);
 
-            $settingDataValue = $this->entityManager->getRepository(SettingDataValue::class)->findOneByKey($entity,
-                $settingDataType->getKey());
-
+            $settingDataValue = $this->entityManager->getRepository(SettingDataValue::class)
+                ->findOneByKey($entity, $settingDataType->getKey());
 
             $options = [
                 'label' => $settingDataType->getLabel(),
@@ -70,9 +66,18 @@ class FormService
                 'mapped' => false,
             ];
 
+            $defaultValue = $settingDataType->getDefaultValue();
+            if($defaultValue){
+                $options['data'] = $defaultValue;
+            }
+
             $value = $settingDataValue ? $settingDataValue->getValue() : '';
 
             $options = array_merge($options, $fieldTypeService->getOptions($value));
+
+            if($settingDataType->isRequired()){
+                $options['constraints'][] = new NotBlank();
+            }
 
             $form->add(
                 'config_' . $settingDataType->getKey(),
@@ -113,7 +118,7 @@ class FormService
             $settingDataType = $this->entityManager->getRepository(SettingDataType::class)
                 ->findOneBy(['key' => $settingDataTypeKey]);
 
-            $fieldTypeService = $this->fieldTypeServiceCollector->getFieldTypeService($settingDataType->getFieldType());
+            $fieldTypeService = $this->serviceCollector->getFieldTypeService($settingDataType->getFieldType());
             $fieldTypeService->setOriginEntity($entity);
 
             $value = $formElement->getData() ? $fieldTypeService->encodeValue($formElement->getData()) : '';
@@ -124,6 +129,9 @@ class FormService
 
             $entity->addSettingDataValue($settingDataValue);
         };
+
+        $this->entityManager->persist($entity);
+//        $this->entityManager->flush();
 
         return $entity;
     }
