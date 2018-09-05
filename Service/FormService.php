@@ -9,7 +9,10 @@ use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class FormService
@@ -20,13 +23,20 @@ class FormService
 
     private $entityManager;
     private $serviceCollector;
+    /**
+     *
+     * @var ValidatorInterface
+     */
+    private $validator;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        FieldTypeServiceCollector $serviceCollector
+        FieldTypeServiceCollector $serviceCollector,
+        ValidatorInterface $validator
     ) {
         $this->entityManager = $entityManager;
         $this->serviceCollector = $serviceCollector;
+        $this->validator = $validator;
     }
 
     public function addConfig(Form $form)
@@ -120,8 +130,10 @@ class FormService
 
             $fieldTypeService = $this->serviceCollector->getFieldTypeService($settingDataType->getFieldType());
             $fieldTypeService->setOriginEntity($entity);
+            $this->validate($formElement);
+            $formData = $formElement->getData();
 
-            $value = $formElement->getData() ? $fieldTypeService->encodeValue($formElement->getData()) : '';
+            $value = $formData ? $fieldTypeService->encodeValue($formData) : '';
 
             $settingDataValue = new SettingDataValue();
             $settingDataValue->setSettingDataType($settingDataType);
@@ -131,8 +143,25 @@ class FormService
         };
 
         $this->entityManager->persist($entity);
-//        $this->entityManager->flush();
 
         return $entity;
+    }
+
+    protected function validate(FormInterface $formElement)
+    {
+        $formData = $formElement->getData();
+        if (is_array($formData)) {
+            foreach ($formData as $key => $data) {
+                if (is_object($data) && strpos(get_class($data), '\\Entity\\') !== false) {
+                    $errors = $this->validator->validate($data);
+                    foreach ($errors as $error) {
+                        $formElement
+                            ->get($key)
+                            ->get($error->getPropertyPath())
+                            ->addError(new FormError($error->getMessage()));
+                    }
+                }
+            }
+        }
     }
 }

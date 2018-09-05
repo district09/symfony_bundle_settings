@@ -3,13 +3,11 @@
 
 namespace DigipolisGent\SettingBundle\Tests\Service;
 
-
 use DigipolisGent\SettingBundle\Entity\Repository\SettingDataValueRepository;
 use DigipolisGent\SettingBundle\Entity\SettingDataType;
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 use DigipolisGent\SettingBundle\FieldType\StringFieldType;
-use DigipolisGent\SettingBundle\Service\EntityTypeCollector;
 use DigipolisGent\SettingBundle\Service\FieldTypeServiceCollector;
 use DigipolisGent\SettingBundle\Service\FormService;
 use DigipolisGent\SettingBundle\Tests\Fixtures\Entity\Bar;
@@ -21,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Forms;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class FormServiceTest extends TestCase
 {
@@ -36,10 +35,12 @@ class FormServiceTest extends TestCase
         $entityManager = $this->getEntityManagerMock([]);
 
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollectorMock();
+        $validator = $this->getMockBuilder(ValidatorInterface::class)->disableOriginalConstructor()->getMock();
 
         $formService = new FormService(
             $entityManager,
-            $fieldTypeServiceCollector
+            $fieldTypeServiceCollector,
+            $validator
         );
 
         $formService->addConfig($form);
@@ -101,10 +102,13 @@ class FormServiceTest extends TestCase
             'string' => new StringFieldType(),
         ]);
 
+        $validator = $this->getMockBuilder(ValidatorInterface::class)->disableOriginalConstructor()->getMock();
+
 
         $formService = new FormService(
             $entityManager,
-            $fieldTypeCollector
+            $fieldTypeCollector,
+            $validator
         );
 
         $formService->addConfig($form);
@@ -132,10 +136,12 @@ class FormServiceTest extends TestCase
 
         $entityManager = $this->getEntityManagerMock([]);
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollectorMock();
+        $validator = $this->getMockBuilder(ValidatorInterface::class)->disableOriginalConstructor()->getMock();
 
         $formService = new FormService(
             $entityManager,
-            $fieldTypeServiceCollector
+            $fieldTypeServiceCollector,
+            $validator
         );
 
         $formService->processForm($form);
@@ -160,10 +166,12 @@ class FormServiceTest extends TestCase
 
         $entityManager = $this->getEntityManagerMock([]);
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollectorMock();
+        $validator = $this->getMockBuilder(ValidatorInterface::class)->disableOriginalConstructor()->getMock();
 
         $formService = new FormService(
             $entityManager,
-            $fieldTypeServiceCollector
+            $fieldTypeServiceCollector,
+            $validator
         );
 
         $formService->processForm($form);
@@ -211,11 +219,13 @@ class FormServiceTest extends TestCase
         ];
 
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollectorMock($fieldTypeServices);
+        $validator = $this->getMockBuilder(ValidatorInterface::class)->disableOriginalConstructor()->getMock();
 
 
         $formService = new FormService(
             $entityManager,
-            $fieldTypeServiceCollector
+            $fieldTypeServiceCollector,
+            $validator
         );
 
         $result = $formService->processForm($form);
