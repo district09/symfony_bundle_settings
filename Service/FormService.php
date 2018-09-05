@@ -10,9 +10,9 @@ use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-
 
 /**
  * Class FormService
@@ -130,20 +130,8 @@ class FormService
 
             $fieldTypeService = $this->serviceCollector->getFieldTypeService($settingDataType->getFieldType());
             $fieldTypeService->setOriginEntity($entity);
+            $this->validate($formElement);
             $formData = $formElement->getData();
-            if (is_array($formData)) {
-              foreach ($formData as $key => $data) {
-                  if (is_object($data) && strpos(get_class($data), '\\Entity\\') !== false) {
-                    $errors = $this->validator->validate($data);
-                    foreach ($errors as $error) {
-                        $formElement
-                            ->get($key)
-                            ->get($error->getPropertyPath())
-                            ->addError(new FormError($error->getMessage()));
-                    }
-                  }
-              }
-            }
 
             $value = $formData ? $fieldTypeService->encodeValue($formData) : '';
 
@@ -157,5 +145,23 @@ class FormService
         $this->entityManager->persist($entity);
 
         return $entity;
+    }
+
+    protected function validate(FormInterface $formElement)
+    {
+        $formData = $formElement->getData();
+        if (is_array($formData)) {
+            foreach ($formData as $key => $data) {
+                if (is_object($data) && strpos(get_class($data), '\\Entity\\') !== false) {
+                    $errors = $this->validator->validate($data);
+                    foreach ($errors as $error) {
+                        $formElement
+                            ->get($key)
+                            ->get($error->getPropertyPath())
+                            ->addError(new FormError($error->getMessage()));
+                    }
+                }
+            }
+        }
     }
 }
