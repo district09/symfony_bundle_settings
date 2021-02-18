@@ -13,9 +13,23 @@ use DigipolisGent\SettingBundle\Provider\DataTypeProviderInterface;
 class DataTypeCollector
 {
 
-    private static $dataTypeList = array();
+    protected static $dataTypeList = array();
 
-    private static $keys = ['key', 'label', 'required', 'field_type', 'entity_types'];
+    protected static $keys = ['key', 'label', 'required', 'field_type', 'entity_types'];
+
+    /**
+     * @param DataTypeProviderInterface[] $dataTypeProviders
+     */
+    public function collectDataTypes(iterable $dataTypeProviders)
+    {
+        foreach ($dataTypeProviders as $dataTypeProvider) {
+            foreach ($dataTypeProvider->getDataTypes() as $dataType) {
+                $this->checkDataTypeArray($dataType);
+            }
+
+            static::$dataTypeList = array_merge(static::$dataTypeList, $dataTypeProvider->getDataTypes());
+        }
+    }
 
     /**
      * @param $name
@@ -34,7 +48,7 @@ class DataTypeCollector
      * @param array $dataType
      * @throws KeyNotFoundException
      */
-    private function checkDataTypeArray(array $dataType)
+    protected function checkDataTypeArray(array $dataType)
     {
         foreach (self::$keys as $key) {
             if (!array_key_exists($key, $dataType)) {

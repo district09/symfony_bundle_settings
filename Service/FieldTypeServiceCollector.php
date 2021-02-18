@@ -4,7 +4,7 @@
 namespace DigipolisGent\SettingBundle\Service;
 
 use DigipolisGent\SettingBundle\Exception\FieldTypeNotFoundException;
-use Psr\Container\ContainerInterface;
+use DigipolisGent\SettingBundle\FieldType\FieldTypeInterface;
 
 /**
  * Class FieldTypeServiceCollector
@@ -12,23 +12,26 @@ use Psr\Container\ContainerInterface;
  */
 class FieldTypeServiceCollector
 {
-    private $container;
 
-    public function __construct(ContainerInterface $container)
+    protected static $fieldTypeList;
+
+    /**
+     * @param FieldTypeInterface[] $fieldTypeList
+     */
+    public function collectFieldTypes(iterable $fieldTypeList)
     {
-        $this->container = $container;
+        foreach ($fieldTypeList as $fieldType) {
+            $this->addFieldTypeService($fieldType::getName(), $fieldType);
+        }
     }
-
-
-    private static $fieldTypeList = array();
 
     /**
      * @param $name
      * @param $class
      */
-    public function addFieldTypeService($name, $class)
+    public function addFieldTypeService($name, FieldTypeInterface $fieldType)
     {
-        static::$fieldTypeList[$name] = $class;
+        static::$fieldTypeList[$name] = $fieldType;
     }
 
     /**
@@ -39,9 +42,9 @@ class FieldTypeServiceCollector
     public function getFieldTypeService($name)
     {
         if (!isset(static::$fieldTypeList[$name])) {
-            throw new FieldTypeNotFoundException();
+            throw new FieldTypeNotFoundException('No fieldtype found for ' . $name);
         }
 
-        return $this->container->get(static::$fieldTypeList[$name]);
+        return static::$fieldTypeList[$name];
     }
 }
