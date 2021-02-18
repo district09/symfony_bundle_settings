@@ -42,6 +42,9 @@ class FormService
     public function addConfig(Form $form)
     {
         $entity = $form->getData();
+        if (!is_object($entity)) {
+            return;
+        }
         $class = get_class($entity);
 
         $parentClass = get_parent_class($class);
