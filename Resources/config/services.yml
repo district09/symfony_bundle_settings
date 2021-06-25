@@ -22,6 +22,8 @@ services:
         tags:
             - { name: field_type}
     DigipolisGent\SettingBundle\Service\FieldTypeServiceCollector:
+        calls:
+            - ['collectFieldTypes', [!tagged field_type]]
     DigipolisGent\SettingBundle\EventListener\DynamicSettingImplementationRelationSubscriber:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
@@ -30,4 +32,6 @@ services:
             - { name: form.type}
     DigipolisGent\SettingBundle\Service\FormService:
     DigipolisGent\SettingBundle\Service\DataTypeCollector:
+        calls:
+            - ['collectDataTypes', [!tagged data_type_provider]]
     DigipolisGent\SettingBundle\Service\DataValueService:

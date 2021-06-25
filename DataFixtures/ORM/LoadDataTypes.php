@@ -15,6 +15,15 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class LoadDataTypes extends Fixture
 {
+    /**
+     * @var DataTypeCollector
+     */
+    protected $dataTypeCollector;
+
+    public function __construct(DataTypeCollector $dataTypeCollector)
+    {
+        $this->dataTypeCollector = $dataTypeCollector;
+    }
 
     /**
      * @param ObjectManager $manager
@@ -23,10 +32,9 @@ class LoadDataTypes extends Fixture
     {
         $dataTypeRepository = $manager->getRepository(SettingDataType::class);
 
-        $dataTypeCollector = $this->container->get(DataTypeCollector::class);
         $dataTypeKeys = [];
 
-        foreach ($dataTypeCollector->getDataTypes() as $dataTypeArr) {
+        foreach ($this->dataTypeCollector->getDataTypes() as $dataTypeArr) {
             $key = $dataTypeArr['key'];
             $label = $dataTypeArr['label'];
             $required = $dataTypeArr['required'];
