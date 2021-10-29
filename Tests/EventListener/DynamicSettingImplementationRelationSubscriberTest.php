@@ -88,10 +88,15 @@ class DynamicSettingImplementationRelationSubscriberTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+
+        $mock->expects($this->at(0))
+            ->method('isRootEntity')
+            ->willReturn(true);
+
         $mock
-            ->expects($this->at(0))
-            ->method('getName')
-            ->willReturn($className);
+            ->expects($this->at(1))
+            ->method('getReflectionClass')
+            ->willReturn(new \ReflectionClass($className));
 
         return $mock;
     }

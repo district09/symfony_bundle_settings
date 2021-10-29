@@ -15,14 +15,8 @@ class FieldTypeServiceCollectorTest extends TestCase
 
     public function testGetFieldTypeService()
     {
-        $container = $this->getContainerMock();
-        $container
-            ->expects($this->at(0))
-            ->method('get')
-            ->with(StringFieldType::class)
-            ->willReturn(new StringFieldType());
 
-        $fieldTypeServiceCollector = $this->getFieldTypeServiceCollector($container);
+        $fieldTypeServiceCollector = $this->getFieldTypeServiceCollector();
         $fieldTypeService = $fieldTypeServiceCollector->getFieldTypeService('string');
         $this->assertInstanceOf(StringFieldType::class, $fieldTypeService);
         $this->assertEquals('string', $fieldTypeService::getName());
@@ -33,28 +27,17 @@ class FieldTypeServiceCollectorTest extends TestCase
      */
     public function testGetFieldTypeServiceException()
     {
-        $container = $this->getContainerMock();
-        $fieldTypeServiceCollector = $this->getFieldTypeServiceCollector($container);
+        $fieldTypeServiceCollector = $this->getFieldTypeServiceCollector();
         $fieldTypeServiceCollector->getFieldTypeService('random');
     }
 
-    private function getFieldTypeServiceCollector($container)
+    private function getFieldTypeServiceCollector()
     {
-        $fieldTypeServiceCollector = new FieldTypeServiceCollector($container);
-        $fieldTypeServiceCollector->addFieldTypeService('string', StringFieldType::class);
-        $fieldTypeServiceCollector->addFieldTypeService('boolean', BooleanFieldType::class);
+        $fieldTypeServiceCollector = new FieldTypeServiceCollector();
+        $fieldTypeServiceCollector->addFieldTypeService('string', new StringFieldType());
+        $fieldTypeServiceCollector->addFieldTypeService('boolean', new BooleanFieldType());
 
         return $fieldTypeServiceCollector;
-    }
-
-    private function getContainerMock()
-    {
-        $mock = $this
-            ->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        return $mock;
     }
 
 }

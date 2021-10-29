@@ -37,7 +37,7 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
         if (!$metadata->isRootEntity()) {
             $rootMetadata = $metadataEventArgs->getEntityManager()->getClassMetadata($metadata->rootEntityName);
         }
-        if (!in_array(SettingImplementationTrait::class, class_uses($metadata->getName()))) {
+        if (!in_array(SettingImplementationTrait::class, $metadata->getReflectionClass()->getTraits())) {
             return;
         }
 
