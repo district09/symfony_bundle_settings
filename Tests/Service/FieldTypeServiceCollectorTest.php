@@ -22,11 +22,9 @@ class FieldTypeServiceCollectorTest extends TestCase
         $this->assertEquals('string', $fieldTypeService::getName());
     }
 
-    /**
-     * @expectedException \DigipolisGent\SettingBundle\Exception\FieldTypeNotFoundException
-     */
     public function testGetFieldTypeServiceException()
     {
+        $this->expectException(\DigipolisGent\SettingBundle\Exception\FieldTypeNotFoundException::class);
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollector();
         $fieldTypeServiceCollector->getFieldTypeService('random');
     }

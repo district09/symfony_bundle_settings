@@ -39,7 +39,7 @@ class DynamicSettingImplementationRelationSubscriberTest extends TestCase
             ->getMock();
 
         $loadClassMetadataEventArgsMock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getClassMetadata')
             ->willReturn($metadata);
 
@@ -69,12 +69,12 @@ class DynamicSettingImplementationRelationSubscriberTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getClassMetadata')
             ->willReturn($metadata);
 
         $mock
-            ->expects($this->at(1))
+            ->expects($this->any())
             ->method('getEntityManager')
             ->willReturn($entityManager);
 
@@ -89,12 +89,12 @@ class DynamicSettingImplementationRelationSubscriberTest extends TestCase
             ->getMock();
 
 
-        $mock->expects($this->at(0))
+        $mock->expects($this->any())
             ->method('isRootEntity')
             ->willReturn(true);
 
         $mock
-            ->expects($this->at(1))
+            ->expects($this->any())
             ->method('getReflectionClass')
             ->willReturn(new \ReflectionClass($className));
 
@@ -109,7 +109,7 @@ class DynamicSettingImplementationRelationSubscriberTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getConfiguration')
             ->willReturn($configuration);
 
@@ -124,7 +124,7 @@ class DynamicSettingImplementationRelationSubscriberTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getNamingStrategy')
             ->willReturn($namingStrategy);
 

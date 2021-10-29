@@ -70,13 +70,13 @@ class LoadDataTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('findOneBy')
             ->with($this->equalTo(['key' => 'foo_bar']))
             ->willReturn(null);
 
         $mock
-            ->expects($this->at(1))
+            ->expects($this->any())
             ->method('findAll')
             ->willReturn($settingDataTypes);
 
@@ -91,7 +91,7 @@ class LoadDataTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('findOneBy')
             ->with($this->equalTo(['name' => 'foo']))
             ->willReturn($settingEntityType);
@@ -107,7 +107,7 @@ class LoadDataTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getDataTypes')
             ->willReturn($dataTypes);
 
@@ -122,16 +122,12 @@ class LoadDataTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getRepository')
-            ->with($this->equalTo(SettingDataType::class))
-            ->willReturn($settingDataTypeRepository);
-
-        $mock
-            ->expects($this->at(1))
-            ->method('getRepository')
-            ->with($this->equalTo(SettingEntityType::class))
-            ->willReturn($settingEntityTypeRepository);
+            ->willReturnMap([
+                [SettingDataType::class, $settingDataTypeRepository],
+                [SettingEntityType::class, $settingEntityTypeRepository]
+            ]);;
 
         return $mock;
     }
