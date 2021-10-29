@@ -14,7 +14,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
-  - vendor/bin/phpunit --disallow-test-output --strict-coverage -d error_reporting=-1 --coverage-clover=build/logs/clover.xml Tests
+  - vendor/bin/phpunit --strict-coverage -d error_reporting=-1 --coverage-clover=build/logs/clover.xml Tests
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
