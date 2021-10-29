@@ -39,7 +39,7 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
         }
 
         $namingStrategy = $metadataEventArgs->getEntityManager()->getConfiguration()->getNamingStrategy();
-        $namePrefix = $namingStrategy->classToTableName($metadata->getName());
+        $namePrefix = $metadata->getTableName();
         $namePrefix = strtolower(ltrim(preg_replace('/[A-Z]/', '_$0', $namePrefix), '_'));
 
         $metadata->mapManyToMany(array(
