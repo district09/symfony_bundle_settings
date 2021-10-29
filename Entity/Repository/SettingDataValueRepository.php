@@ -20,8 +20,9 @@ class SettingDataValueRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $classMetadata = $em->getClassMetadata(get_class($entity));
+        $rootClassMetadata = $em->getClassMetadata($classMetadata->rootEntityName);
 
-        $namePrefix =  $classMetadata->getTableName();
+        $namePrefix =  $rootClassMetadata->getTableName();
         $namePrefix = strtolower(ltrim(preg_replace('/[A-Z]/', '_$0', $namePrefix), '_'));
 
         $sql = "SELECT dv.id,dv.setting_v_value,setting_data_type_id " .
@@ -35,7 +36,7 @@ class SettingDataValueRepository extends EntityRepository
         $rsm->addRootEntityFromClassMetadata(SettingDataValue::class, 'dv');
 
         $id = $entity->getId();
-        $type = $classMetadata->getTypeOfField('id');
+        $type = $rootClassMetadata->getTypeOfField('id');
         if (in_array($type, ['ulid', 'uuid', 'guid'])) {
             // Convert values into right type
             if (Type::hasType($type)) {

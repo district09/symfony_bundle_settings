@@ -33,13 +33,16 @@ class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
     public function loadClassMetadata(LoadClassMetadataEventArgs $metadataEventArgs)
     {
         $metadata = $metadataEventArgs->getClassMetadata();
-
+        $rootMetadata = $metadata;
+        if (!$metadata->isRootEntity()) {
+            $rootMetadata = $metadataEventArgs->getEntityManager()->getClassMetadata($metadata->rootEntityName);
+        }
         if (!in_array(SettingImplementationTrait::class, class_uses($metadata->getName()))) {
             return;
         }
 
         $namingStrategy = $metadataEventArgs->getEntityManager()->getConfiguration()->getNamingStrategy();
-        $namePrefix = $metadata->getTableName();
+        $namePrefix = $rootMetadata->getTableName();
         $namePrefix = strtolower(ltrim(preg_replace('/[A-Z]/', '_$0', $namePrefix), '_'));
 
         $metadata->mapManyToMany(array(
