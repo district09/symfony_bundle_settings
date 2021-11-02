@@ -51,12 +51,12 @@ class LoadEntityTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('findOneBy')
             ->willReturn(null);
 
         $mock
-            ->expects($this->at(1))
+            ->expects($this->any())
             ->method('findAll')
             ->willReturn($settingEntityTypes);
 
@@ -71,7 +71,7 @@ class LoadEntityTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getName')
             ->willReturn($className);
 
@@ -86,7 +86,7 @@ class LoadEntityTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getAllMetadata')
             ->willReturn($metadata);
 
@@ -101,13 +101,13 @@ class LoadEntityTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getRepository')
             ->with($this->equalTo(SettingEntityType::class))
             ->willReturn($repository);
 
         $mock
-            ->expects($this->at(1))
+            ->expects($this->any())
             ->method('getMetadataFactory')
             ->willReturn($metadataFactory);
 

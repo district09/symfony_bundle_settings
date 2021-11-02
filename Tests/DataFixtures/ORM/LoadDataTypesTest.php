@@ -23,7 +23,7 @@ class LoadDataTypesTest extends TestCase
             LoadEntityTypes::class
         ];
 
-        $fixture = new LoadDataTypes();
+        $fixture = new LoadDataTypes(new DataTypeCollector());
 
         $this->assertEquals($expected, $fixture->getDependencies());
     }
@@ -41,7 +41,6 @@ class LoadDataTypesTest extends TestCase
         ];
 
         $dataTypeCollector = $this->getDataTypeCollectorMock($dataTypes);
-        $container = $this->getContainerMock($dataTypeCollector);
 
         $settingDataType = new SettingDataType();
         $settingDataType->setKey('baz_qux');
@@ -59,8 +58,7 @@ class LoadDataTypesTest extends TestCase
 
         $entityManager = $this->getEntityManagerMock($settingDataTypeRepository, $settingEntityTypeRepository);
 
-        $fixture = new LoadDataTypes();
-        $fixture->setContainer($container);
+        $fixture = new LoadDataTypes($dataTypeCollector);
         $fixture->load($entityManager);
     }
 
@@ -72,13 +70,13 @@ class LoadDataTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('findOneBy')
             ->with($this->equalTo(['key' => 'foo_bar']))
             ->willReturn(null);
 
         $mock
-            ->expects($this->at(1))
+            ->expects($this->any())
             ->method('findAll')
             ->willReturn($settingDataTypes);
 
@@ -93,7 +91,7 @@ class LoadDataTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('findOneBy')
             ->with($this->equalTo(['name' => 'foo']))
             ->willReturn($settingEntityType);
@@ -109,25 +107,9 @@ class LoadDataTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getDataTypes')
             ->willReturn($dataTypes);
-
-        return $mock;
-    }
-
-    private function getContainerMock($dataTypeCollector)
-    {
-        $mock = $this
-            ->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $mock
-            ->expects($this->at(0))
-            ->method('get')
-            ->with($this->equalTo(DataTypeCollector::class))
-            ->willReturn($dataTypeCollector);
 
         return $mock;
     }
@@ -140,16 +122,12 @@ class LoadDataTypesTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getRepository')
-            ->with($this->equalTo(SettingDataType::class))
-            ->willReturn($settingDataTypeRepository);
-
-        $mock
-            ->expects($this->at(1))
-            ->method('getRepository')
-            ->with($this->equalTo(SettingEntityType::class))
-            ->willReturn($settingEntityTypeRepository);
+            ->willReturnMap([
+                [SettingDataType::class, $settingDataTypeRepository],
+                [SettingEntityType::class, $settingEntityTypeRepository]
+            ]);;
 
         return $mock;
     }

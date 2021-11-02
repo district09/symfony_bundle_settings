@@ -28,11 +28,9 @@ class DataTypeCollectorTest extends TestCase
         $this->assertCount(1, $dataTypes);
     }
 
-    /**
-     * @expectedException \DigipolisGent\SettingBundle\Exception\KeyNotFoundException
-     */
     public function testKeyNotFoundException()
     {
+        $this->expectException(\DigipolisGent\SettingBundle\Exception\KeyNotFoundException::class);
         $dataTypes = [
             [
                 'random_key' => 'random_value',

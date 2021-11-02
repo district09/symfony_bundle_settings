@@ -28,7 +28,7 @@ class DigipolisGentSettingExtensionTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('fileExists');
 
         return $mock;

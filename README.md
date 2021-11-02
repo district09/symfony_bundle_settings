@@ -9,7 +9,7 @@ After saving, these values (strings, integers, array collections, ...) are easil
 
 ## Compatibility
 
-This bundle is compatible with all Symfony 3.4.* releases.
+This bundle is compatible with all Symfony ^5.0 releases.
 
 ## Installation
 
@@ -19,28 +19,14 @@ You can use composer to install the bundle in an existing symfony project.
 composer require digipolisgent/setting-bundle
 ```
 
-Then, update your ```app/AppKernel.php``` file.
-
-```php
-<?php
-// app/AppKernel.php
-
-public function registerBundles()
-{
-    $bundles = [
-        // ...
-        new DigipolisGent\SettingBundle\DigipolisGentSettingBundle(),
-    ];
-
-    // ...
-}
-```
+For more information on how to install symfony bundles, please see
+[the Symfony documentation about bundles](https://symfony.com/doc/current/bundles.html)
 
 There are no routes to register or other mandatory configuration options.
 
 ## Before reading this documentation
 
-If you are not familiar with symfony we suggest reading the [symfony 3.4 documentation](https://symfony.com/doc/3.4/index.html).
+If you are not familiar with symfony we suggest reading the [Symfony 5 documentation](https://symfony.com/doc/5.3/index.html).
 
 ## Entity types
 
@@ -57,11 +43,11 @@ use Doctrine\ORM\Mapping as ORM;
 use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 
 /**
-* @ORM\Entity() 
+* @ORM\Entity()
 */
 class Foo
 {
- 
+
     /**
      * @ORM\Id
      * @ORM\Column(type="guid")
@@ -78,16 +64,16 @@ class Foo
     {
         return $this->id;
     }
-    
+
     use SettingImplementationTrait;
-    
+
     /**
      * @return string
      */
     public static function getSettingImplementationName()
     {
         return 'foo';
-    }  
+    }
 }
 ```
 
@@ -97,7 +83,7 @@ The trait will
 - A ```SettingEntityType``` entity is added to the database
 - Extra data can be added to the entity using the ```DataValueService```
 - The ```FormService``` adds and processes the extra configuration if the set data is an entity using this trait
- 
+
 ## Field types
 
 These are the services that will define how an extra configured field behaves in a form and how the data is presented when we want to use it throughout the application.
@@ -215,7 +201,7 @@ class DataTypeProvider implements DataTypeProviderInterface
 }
 ```
 
-All keys are checked 
+All keys are checked
 
 - key : this is the key you can access the extra setting with if you need it at a later time
 - label : this is the label that will be used in forms
@@ -350,7 +336,7 @@ class BarCheckboxFieldType extends AbstractFieldType
                 $data[] = $barRepository->find($id);
             }
         }
-        
+
         $options['data'] = $data;
 
         return $options;
@@ -410,7 +396,7 @@ Using ```bar_checkbox``` as a field type in your data type provider will :
 - The ```storeValue``` function in the ```DataValueService``` gives you the possibility to save a list of ```Bar``` entities
 
 ## Advantages
- 
-- You can have extra properties for the entities that appear and disappear if you activate or deactivate bundles. 
+
+- You can have extra properties for the entities that appear and disappear if you activate or deactivate bundles.
 - The field types give the possibility to reuse code multiple times.
 - You can change the structure in a matter of seconds by changing the dataprovider array

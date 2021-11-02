@@ -41,7 +41,7 @@ class DataValueServiceTest extends TestCase
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollector();
 
         $fieldTypeServiceCollector
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getFieldTypeService')
             ->with($this->equalTo('string'))
             ->willReturn(new StringFieldType());
@@ -97,7 +97,7 @@ class DataValueServiceTest extends TestCase
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollector();
 
         $fieldTypeServiceCollector
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getFieldTypeService')
             ->with($this->equalTo('string'))
             ->willReturn(new StringFieldType());
@@ -124,23 +124,36 @@ class DataValueServiceTest extends TestCase
         $settingDataType->setFieldType('string');
         $settingDataType->setKey('foo_string_key');
 
-        $repository = $this->getSettingDataValueRepositoryMock(null);
-        $entityManager = $this->getEntityManagerMock($repository);
+        $settingDataValue = new SettingDataValue();
+        $settingDataValue->setValue('foo_value');
+        $settingDataValue->setSettingDataType($settingDataType);
+
         $fieldTypeServiceCollector = $this->getFieldTypeServiceCollector();
 
         $fieldTypeServiceCollector
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getFieldTypeService')
             ->with($this->equalTo('string'))
             ->willReturn(new StringFieldType());
 
         $settingDataTypeRepository = $this->getSettingDataTypeRepositoryMock($settingDataType);
+        $settingDataValueRepository = $this->getSettingDataValueRepositoryMock($settingDataValue);
 
+        $entityManager = $this
+            ->getMockBuilder(EntityManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $entityManager
-            ->expects($this->at(1))
             ->method('getRepository')
-            ->with($this->equalTo(SettingDataType::class))
-            ->willReturn($settingDataTypeRepository);
+            ->will($this->returnCallback(function ($class) use ($settingDataTypeRepository, $settingDataValueRepository) {
+                if ($class == SettingDataType::class) {
+                  return $settingDataTypeRepository;
+                }
+                if ($class == SettingDataValue::class) {
+                  return $settingDataValueRepository;
+                }
+                return null;
+            }));
 
         $dataValueService = new DataValueService(
             $entityManager,
@@ -160,7 +173,7 @@ class DataValueServiceTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('findOneByKey')
             ->willReturn(
                 $settingDataValue
@@ -177,7 +190,7 @@ class DataValueServiceTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('findOneBy')
             ->willReturn(
                 $settingDataType
@@ -194,7 +207,7 @@ class DataValueServiceTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getRepository')
             ->with($this->equalTo(SettingDataValue::class))
             ->willReturn($repository);
