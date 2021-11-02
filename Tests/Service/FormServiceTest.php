@@ -249,16 +249,14 @@ class FormServiceTest extends TestCase
             ->getMock();
 
         $index = 0;
-
+        $map = [];
         foreach ($repositories as $repository) {
-            $mock
-                ->expects($this->at($index))
-                ->method('getRepository')
-                ->with($this->equalTo($repository['class']))
-                ->willReturn($repository['returnValue']);
-
-            $index++;
+            $map[] = [$repository['class'], $repository['returnValue']];
         }
+        $mock
+            ->expects($this->any())
+            ->method('getRepository')
+            ->willReturnMap($map);
 
         return $mock;
     }
@@ -311,7 +309,7 @@ class FormServiceTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('findOneBy')
             ->willReturn(
                 $settingEntityType

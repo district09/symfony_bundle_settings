@@ -32,7 +32,7 @@ class SettingFormEventListenerTest extends TestCase
     {
         $formService = $this->getFormServiceMock();
         $formService
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('addConfig');
 
         $formEvent = $this->getFormEventMock();
@@ -43,12 +43,13 @@ class SettingFormEventListenerTest extends TestCase
 
     public function testOnPostSubmit()
     {
+        $formEvent = $this->getFormEventMock();
+
         $formService = $this->getFormServiceMock();
         $formService
-            ->expects($this->at(0))
-            ->method('addConfig');
-
-        $formEvent = $this->getFormEventMock();
+            ->expects($this->once())
+            ->method('processForm')
+            ->with($formEvent->getForm());
 
         $eventListener = new SettingFormListener($formService);
         $eventListener->onPostSubmit($formEvent);
@@ -72,7 +73,7 @@ class SettingFormEventListenerTest extends TestCase
             ->getMock();
 
         $mock
-            ->expects($this->at(0))
+            ->expects($this->any())
             ->method('getForm')
             ->willReturn($this->getForm());
 

@@ -7,7 +7,7 @@ use DigipolisGent\SettingBundle\Entity\SettingEntityType;
 use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
 use DigipolisGent\SettingBundle\Service\EntityTypeCollector;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * Class LoadEntityTypes
