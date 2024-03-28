@@ -35,3 +35,5 @@ services:
         calls:
             - ['collectDataTypes', [!tagged data_type_provider]]
     DigipolisGent\SettingBundle\Service\DataValueService:
+    DigipolisGent\SettingBundle\DataFixtures\ORM\LoadDataTypes:
+    DigipolisGent\SettingBundle\DataFixtures\ORM\LoadEntityTypes:
