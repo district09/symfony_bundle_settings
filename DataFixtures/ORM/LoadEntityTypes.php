@@ -19,7 +19,7 @@ class LoadEntityTypes extends Fixture
     /**
      * @param ObjectManager $manager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $entityTypeRepository = $manager->getRepository(SettingEntityType::class);
         $entityTypeNames = [];

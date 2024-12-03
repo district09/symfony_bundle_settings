@@ -28,7 +28,7 @@ class LoadDataTypes extends Fixture
     /**
      * @param ObjectManager $manager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $dataTypeRepository = $manager->getRepository(SettingDataType::class);
 
@@ -83,7 +83,7 @@ class LoadDataTypes extends Fixture
     /**
      * @return array
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             LoadEntityTypes::class,
