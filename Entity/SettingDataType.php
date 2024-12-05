@@ -11,11 +11,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Class SettingDataType
  * @package DigipolisGent\SettingBundle\Entity
- *
- * @ORM\Entity()
- * @ORM\Table(name="setting_data_type")
- * @UniqueEntity(fields={"key"})
  */
+#[ORM\Table(name: 'setting_data_type')]
+#[ORM\Entity]
+#[UniqueEntity(fields: ['key'])]
 class SettingDataType
 {
 
@@ -23,59 +22,51 @@ class SettingDataType
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="setting_dt_key",type="string")
      */
+    #[ORM\Column(name: 'setting_dt_key', type: 'string')]
     private $key;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="setting_dt_label",type="string")
      */
+    #[ORM\Column(name: 'setting_dt_label', type: 'string')]
     private $label;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="setting_dt_required",type="boolean")
      */
+    #[ORM\Column(name: 'setting_dt_required', type: 'boolean')]
     private $required;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="setting_dt_field_type",type="string")
      */
+    #[ORM\Column(name: 'setting_dt_field_type', type: 'string')]
     private $fieldType;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity=SettingDataValue::class,mappedBy="settingDataType",cascade={"remove"})
      */
+    #[ORM\OneToMany(targetEntity: SettingDataValue::class, mappedBy: 'settingDataType', cascade: ['remove'])]
     private $settingDataValues;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity=SettingEntityType::class,inversedBy="settingDataTypes",cascade={"persist"})
-     * @ORM\JoinTable(name="setting_data_type_setting_entity_type")
      */
+    #[ORM\JoinTable(name: 'setting_data_type_setting_entity_type')]
+    #[ORM\ManyToMany(targetEntity: SettingEntityType::class, inversedBy: 'settingDataTypes', cascade: ['persist'])]
     private $settingEntityTypes;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="setting_dt_order",type="integer",nullable=true)
      */
+    #[ORM\Column(name: 'setting_dt_order', type: 'integer', nullable: true)]
     private $order;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="default_value",type="string",nullable=true)
      */
+    #[ORM\Column(name: 'default_value', type: 'string', nullable: true)]
     private $defaultValue;
 
     public function __construct()

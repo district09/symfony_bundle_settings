@@ -11,11 +11,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Class SettingEntityType
  * @package DigipolisGent\SettingBundle\Entity
- *
- * @ORM\Entity()
- * @UniqueEntity(fields={"name"})
- * @ORM\Table(name="setting_entity_type")
  */
+#[ORM\Table(name: 'setting_entity_type')]
+#[ORM\Entity]
+#[UniqueEntity(fields: ['name'])]
 class SettingEntityType
 {
 
@@ -23,16 +22,14 @@ class SettingEntityType
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="setting_et_name",type="string")
      */
+    #[ORM\Column(name: 'setting_et_name', type: 'string')]
     private $name;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity=SettingDataType::class,mappedBy="settingEntityTypes",cascade={"persist"})
      */
+    #[ORM\ManyToMany(targetEntity: SettingDataType::class, mappedBy: 'settingEntityTypes', cascade: ['persist'])]
     private $settingDataTypes;
 
     public function __construct()
