@@ -1,8 +1,7 @@
 language: php
 
 php:
-  - 7.3
-  - 7.4
+  - 8.3
 
 install:
   - composer self-update
@@ -14,7 +13,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
-  - vendor/bin/phpunit --strict-coverage -d error_reporting=-1 --coverage-clover=build/logs/clover.xml Tests
+  - vendor/bin/phpunit --strict-coverage -d error_reporting=-1 --coverage-clover=build/logs/clover.xml tests
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

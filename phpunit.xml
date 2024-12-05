@@ -12,7 +12,7 @@
   </coverage>
   <testsuites>
     <testsuite name="setting-bundle">
-      <directory>./Tests</directory>
+      <directory>./tests</directory>
     </testsuite>
   </testsuites>
 </phpunit>
