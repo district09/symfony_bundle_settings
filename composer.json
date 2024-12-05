@@ -27,7 +27,7 @@
   "autoload": {
     "psr-4": {
       "DigipolisGent\\SettingBundle\\": "src",
-      "DigipolisGent\\SettingBundle\\Tests": "tests"
+      "DigipolisGent\\SettingBundle\\Tests\\": "tests"
     }
   }
 }
