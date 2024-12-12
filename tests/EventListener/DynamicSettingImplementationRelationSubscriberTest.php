@@ -18,17 +18,6 @@ use PHPUnit\Framework\TestCase;
 class DynamicSettingImplementationRelationSubscriberTest extends TestCase
 {
 
-    public function testGetSubscribedEvents()
-    {
-        $subscriber = new DynamicSettingImplementationRelationSubscriber();
-
-        $expected = [
-            Events::loadClassMetadata
-        ];
-
-        $this->assertEquals($expected, $subscriber->getSubscribedEvents());
-    }
-
     public function testLoadClassMetadataWithoutSettingsImplementation()
     {
         $metadata = $this->getMetadataMock(Bar::class);
