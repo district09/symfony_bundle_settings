@@ -5,28 +5,17 @@ namespace DigipolisGent\SettingBundle\EventListener;
 
 use DigipolisGent\SettingBundle\Entity\SettingDataValue;
 use DigipolisGent\SettingBundle\Entity\Traits\SettingImplementationTrait;
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\ORM\Mapping\NamingStrategy;
 
 /**
  * Class DynamicSettingImplementationRelationSubscriber
  * @package DigipolisGent\SettingBundle\EventListener
  */
-class DynamicSettingImplementationRelationSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::loadClassMetadata)]
+class DynamicSettingImplementationRelationSubscriber
 {
-
-    /**
-     * @return array
-     */
-    public function getSubscribedEvents()
-    {
-        return array(
-            Events::loadClassMetadata,
-        );
-    }
-
     /**
      * @param LoadClassMetadataEventArgs $loadClassMetadataEventArgs
      */

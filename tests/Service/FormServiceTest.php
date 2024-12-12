@@ -46,7 +46,7 @@ class FormServiceTest extends TestCase
         $formService->addConfig($form);
         $iterator = $form->getIterator();
 
-        $this->assertFalse($form->getErrors()->getChildren());
+        $this->assertFalse($form->getErrors()->hasChildren());
         $this->assertCount(0, $iterator);
     }
 
@@ -114,7 +114,7 @@ class FormServiceTest extends TestCase
         $formService->addConfig($form);
         $iterator = $form->getIterator();
 
-        $this->assertFalse($form->getErrors()->getChildren());
+        $this->assertFalse($form->getErrors()->hasChildren());
         $this->assertCount(3, $iterator);
 
         $keys = ['config_one', 'config_two', 'config_three'];
@@ -145,7 +145,7 @@ class FormServiceTest extends TestCase
         );
 
         $formService->processForm($form);
-        $this->assertFalse($form->getErrors()->getChildren());
+        $this->assertFalse($form->getErrors()->hasChildren());
     }
 
     public function testEntityTypeProcessFormWitoutConfig()
@@ -176,7 +176,7 @@ class FormServiceTest extends TestCase
 
         $formService->processForm($form);
         $this->assertCount(0, $form->getData()->getSettingDataValues());
-        $this->assertFalse($form->getErrors()->getChildren());
+        $this->assertFalse($form->getErrors()->hasChildren());
     }
 
     public function testEntityTypeProcessFormWithConfig()
@@ -231,7 +231,7 @@ class FormServiceTest extends TestCase
         $result = $formService->processForm($form);
         $this->assertInstanceOf(FooParent::class, $result);
         $this->assertCount(1, $result->getSettingDataValues());
-        $this->assertFalse($form->getErrors()->getChildren());
+        $this->assertFalse($form->getErrors()->hasChildren());
     }
 
 

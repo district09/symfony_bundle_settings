@@ -9,10 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class SettingDataValue
  * @package DigipolisGent\SettingBundle\Entity
- *
- * @ORM\Entity(repositoryClass="DigipolisGent\SettingBundle\Entity\Repository\SettingDataValueRepository")
- * @ORM\Table(name="setting_data_value")
  */
+#[ORM\Table(name: 'setting_data_value')]
+#[ORM\Entity(repositoryClass: \DigipolisGent\SettingBundle\Entity\Repository\SettingDataValueRepository::class)]
 class SettingDataValue
 {
 
@@ -20,17 +19,15 @@ class SettingDataValue
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="setting_v_value",type="text", nullable=true, options={"default": null})
      */
+    #[ORM\Column(name: 'setting_v_value', type: 'text', nullable: true, options: ['default' => null])]
     private $value;
 
     /**
      * @var SettingDataType
-     *
-     * @ORM\ManyToOne(targetEntity=SettingDataType::class,inversedBy="settingDataValues")
-     * @ORM\JoinColumn(referencedColumnName="id",name="setting_data_type_id")
      */
+    #[ORM\JoinColumn(referencedColumnName: 'id', name: 'setting_data_type_id')]
+    #[ORM\ManyToOne(targetEntity: SettingDataType::class, inversedBy: 'settingDataValues')]
     private $settingDataType;
 
     /**
