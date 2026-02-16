@@ -35,7 +35,7 @@ class DataValueService
     /**
      * @param $entity
      * @param $key
-     * @return null
+     * @return string|null
      */
     public function getValue($entity, $key)
     {
