@@ -46,7 +46,7 @@ class IntegerFieldType extends AbstractFieldType
      */
     public function decodeValue($value)
     {
-        return (integer)$value;
+        return (int)$value;
     }
 
     /**
