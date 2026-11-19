@@ -49,6 +49,6 @@ class BooleanFieldType extends AbstractFieldType
      */
     public function decodeValue($value)
     {
-        return (boolean)$value;
+        return (bool)$value;
     }
 }

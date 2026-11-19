@@ -243,7 +243,7 @@ class SettingDataType
     /**
      * @param string $defaultValue
      */
-    public function setDefaultValue(string $defaultValue = null)
+    public function setDefaultValue(?string $defaultValue = null)
     {
         $this->defaultValue = $defaultValue;
     }
